@@ -8,7 +8,8 @@ const  {
     deleteUser,
     getUserById,
     updateUser,
-    searchDoctor,
+    searchDoctorByName,
+    searchDoctorBySpecialization,
     searchParticularDoctor,
   } = require('./user.js');
 
@@ -30,7 +31,8 @@ const {
     deleteUser: deleteUser,
     getUserById: getUserById,
     updateUser: updateUser,
-    searchDoctor: searchDoctor,
+    searchDoctorByName: searchDoctorByName,
+    searchDoctorBySpecialization: searchDoctorBySpecialization,
     searchParticularDoctor: searchParticularDoctor,
     //appointment
     createAppointment: createAppointment,

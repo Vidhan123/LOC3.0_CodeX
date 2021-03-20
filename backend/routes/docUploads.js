@@ -1,7 +1,7 @@
-import path from 'path'
-import express from 'express'
-import multer from 'multer'
-const router = express.Router()
+const path = require('path');
+const express = require("express");
+const multer = require('multer');
+const docRouter = express.Router()
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
     )
   },
-})
+});
 
 function checkFileType(file, cb) {
   const filetypes = /doc|docx|xls|xlsx|pdf|html/
@@ -34,8 +34,9 @@ const upload = multer({
   },
 })
 
-router.post('/', upload.single('file'), (req, res) => {
-  res.send(`/${req.file.path}`)
+docRouter.post('/', upload.single('file'), (req, res) => {
+  console.log(`/${req.file.path}`);
+  res.send(`/${req.file.path}`);
 })
 
-export default router
+module.exports = docRouter;

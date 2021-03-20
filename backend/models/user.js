@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      default: "username",
+      required: true,
     },
     phoneNo: {
       type: String,
@@ -47,6 +47,10 @@ const userSchema = mongoose.Schema(
         type: Number,
       },
     },
+    image: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
@@ -59,8 +63,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 userSchema.plugin(fuzzy, {
   fields:
-     ['specialization',
-     'name']
+     ['name']
   
 });
 
