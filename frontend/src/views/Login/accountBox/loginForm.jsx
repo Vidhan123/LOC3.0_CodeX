@@ -23,8 +23,6 @@ export function LoginForm(props) {
   const { user } = useContext(GlobalContext);
   const [ userData, setUserData ] = user;
 
-  console.log(userData.email, userData.password);
-
   return (
     <BoxContainer>
       <FormContainer>
@@ -37,7 +35,6 @@ export function LoginForm(props) {
       <SubmitButton type="submit" onClick={async () => {
         const data = await api.authUser(userData.email, userData.password);
         setUserData(data);
-        console.log(data);
         if(userData.email){
           history.push('/user/dashboard');
         }

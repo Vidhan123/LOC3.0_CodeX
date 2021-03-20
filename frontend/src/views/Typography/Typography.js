@@ -103,7 +103,7 @@ export default function TypographyPage() {
   const classes = useStyles();
 
   const [bookAppointment, setBookAppointment] = useState({
-    doctorId: "",
+    doctorId: docId,
     dateTime: "",
     description: "",
   });

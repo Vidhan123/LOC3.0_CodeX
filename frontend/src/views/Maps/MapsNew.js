@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MyMap from '../../components/Map/map';
 import styled from 'styled-components';
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,6 +13,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CustomInput from "components/CustomInput/CustomInput";
 import { Link } from 'react-router-dom';
+import api from 'utils/api';
+import userImg from '../../assets/img/faces/doctor.png';
 
 const styles = {
   cardCategoryWhite: {
@@ -56,7 +58,10 @@ function MapsNew() {
 
   const [mapInit, setMapInit] = useState(false);
 
-  const doctor = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [doctor, setDoctor] = useState([]);
+  useEffect(async () => {
+    setDoctor(await api.getDoctor());
+  }, []);
 
   return(
     <React.Fragment>
@@ -110,17 +115,22 @@ function MapsNew() {
       <StyledDoctorContainer>
         {doctor.map(elem => (
           <Card>
-          <CardHeader color="primary">
-            Doctor {elem}
+          <CardHeader color="primary" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+            <img src={userImg} width={25} height={25} style={{ borderRadius: '50%', marginRight: 8 }}/>
+            <span style={{ textTransform: 'capitalize' }}>{elem.name}</span>
           </CardHeader>
           <CardBody>
-            Specialization {elem}
+            <StyledIndividualDoctorPanel>
+              <span style={{ textTransform: 'uppercase' }}>{elem.specialization === null ? "Not Specified" : elem.specialization}</span>
+              <span style={{ textTransform: 'capitalize' }}>{elem.sex === null ? "NOT SPECIFIED" : elem.sex}</span>
+              <span>{elem.age === null ? "Not Specified" : elem.age}</span>
+            </StyledIndividualDoctorPanel>
             <StyledButton
                   fullWidth
                   color="primary"
                   onClick={() => {}}
                   >
-                    <Link to={`/doctor/appointment/60559d28db76936bc4481cca`}>
+                    <Link to={`bookAppointment/3`} style={{ color: '#fff' }}>
                       Book an Appointment
                     </Link>
                   </StyledButton>
@@ -145,4 +155,10 @@ const StyledDoctorContainer = styled.div`
   row-gap: 12px;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledIndividualDoctorPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 6px;
 `;

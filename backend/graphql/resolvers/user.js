@@ -1,6 +1,7 @@
 const User = require('../../models/user.js');
 const {loggedin, admin} = require('../../utils/verifyUser');
 const generateToken = require('../../utils/generateToken.js');   
+const fuzzy = require('mongoose-fuzzy-search');
 
 //Auth user & get token
 // Public
@@ -33,6 +34,7 @@ const registerUser = async (args, { req, redis }) => {
     }
 
     const user = await User.create({
+      name: args.userInput.name,
       email: args.userInput.email,
       password: args.userInput.password,
       role: args.userInput.role,
@@ -126,7 +128,7 @@ const getUsers = async (args, { req, redis }) => {
 const getDoctors = async (args, {req}) => {
   try {
     const doctors = await User.find({role: "doctor"});
-    console.log(doctors);
+    // console.log(doctors);
     return doctors;
   } catch (err) {
     console.log(err);
@@ -202,16 +204,56 @@ const updateUser = async (args, { req, redis }) => {
   }
 };
 
-const searchDoctor = async (args, {req}) => {
+const searchDoctorByName = async (args, {req}) => {
   try {
-    let doctors = await User.fuzzySearch({query: args.searchTerm});
-    let x = [];
-    doctors.forEach(element => {
-      if(element.role=="doctor") {
-        x.push(element);
+    if(loggedin(req)) {
+      const doctors = await User.fuzzySearch(args.searchTerm);
+      let x = [];
+      doctors.forEach(element => {
+        if(element.role=="doctor") {
+          x.push(element);
+        }
+      });
+      return x;
+    } else {
+      throw new Error('User not found');
+    }  
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+const searchDoctorBySpecialization = async (args, {req}) => {
+  try{
+    if(loggedin(req)) {
+      const doctors = await User.find({role: "doctor", specialization: args.searchTerm});
+      if(doctors) {
+        return doctors;
+      } else {
+        console.log('Doctor not found!!');
+      }  
+    } else {
+      throw new Error('User not found');
+    }
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+const searchParticularDoctor = async (args, {req}) => {
+  try {
+    if(loggedin(req)) {
+      let doctor = await User.findById(args.userId);
+      if(doctor.role == 'doctor') {
+        return doctor;
+      } else {
+        console.log('Doctor not found!!');
       }
-    });
-    return x;
+    } else {
+      throw new Error('User not found');
+    }
   } catch (err) {
     console.log(err);
     throw err;
@@ -228,5 +270,7 @@ module.exports =  {
   deleteUser,
   getUserById,
   updateUser,
-  searchDoctor
+  searchDoctorByName,
+  searchDoctorBySpecialization,
+  searchParticularDoctor
 };

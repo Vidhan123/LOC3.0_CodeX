@@ -6,9 +6,11 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
+      required: true,
     },
     phoneNo: {
       type: String,
+      default: "phone"
     },
     email: {
       type: String,
@@ -28,12 +30,14 @@ const userSchema = mongoose.Schema(
     },
     sex: {
       type: String,
+      default: "",
     },
     specialization: {
       type: String
     },
     about: {
-      type: String
+      type: String,
+      default: "",
     },
     location: {
       latitude : {
@@ -42,6 +46,10 @@ const userSchema = mongoose.Schema(
       longitude: {
         type: Number,
       },
+    },
+    image: {
+      type: String,
+      default: "",
     },
   },
   {
@@ -55,8 +63,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 userSchema.plugin(fuzzy, {
   fields:
-     ['specialization',
-     'name']
+     ['name']
   
 });
 

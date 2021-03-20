@@ -48,8 +48,14 @@ app.use(
       res.sendFile( __dirname + '/index.html' );
   } );
   
-  
   io.of( '/stream' ).on( 'connection', stream );
+
+const docRouter = require('./routes/docUploads');
+const imageRouter = require('./routes/picUploads');
+
+app.use('/uploadimage', imageRouter);
+
+app.use('/uploaddoc', docRouter);
 
 const PORT = process.env.PORT || 5000;
 

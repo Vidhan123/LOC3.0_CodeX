@@ -1,16 +1,26 @@
 const { buildSchema } = require('graphql');
 const { UserSchema } = require('./user.js');
+const { AppointmentSchema } = require('./appoinment.js');
 
 const buildschema =  buildSchema(`
     ${UserSchema}
 
+    ${AppointmentSchema}
+
     type rootQuery {
+        
         authUser(email: String!, password: String!): User!
         getUserProfile: User!
         getUsers: [User!]!
         getUserById(userId: ID!): User!
         getDoctors: [User!]!
-        searchDoctor(searchTerm: String!): [User!]
+        searchDoctorByName(searchTerm: String!): [User!]
+        searchDoctorBySpecialization(searchTerm: String!): [User!]
+        searchParticularDoctor(userId: ID!): User!
+
+        viewAppointment: [Appointment!]!
+        cancelAppointment(appointment_id: ID!): Response!
+        changeStatus(appointment_id: ID!): Response!
     }
 
     type rootMutation {
@@ -18,6 +28,8 @@ const buildschema =  buildSchema(`
         updateUserProfile(userInput: UpdateUserInput!): User!
         updateUser(userId: ID!, userInput: UpdateUserInput!): User!
         deleteUser(userId: ID!): User!
+
+        createAppointment(appointmentInput: AppointmentInput!): Appointment!
     }
 
     schema {

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const GlobalContext = createContext();
 
@@ -9,18 +9,22 @@ export const GlobalProvider = (props) => {
 //   const [isAuth, setIsAuth] = useState(false);
 
   const [userData, setUserData] = useState({
-      id: "",
-      name: "",
-      phoneNo: "",
-      email: "",
-      password: "",
-      role: "",
-      age: "",
-      sex: "",
-      specialization: "",
-      token: "",
+    id: "",
+    name: "",
+    phoneNo: "",
+    email: "",
+    password: "",
+    role: "",
+    age: "",
+    sex: "",
+    specialization: "",
+    token: "",
 
   });
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   return (
     <GlobalContext.Provider
