@@ -1,0 +1,17 @@
+.leaflet-container {
+  width: 100%;
+  height: 91vh;
+}
+
+.search-control-info-list-item {
+  color: #808080 !important;
+}
+
+.search-control-info-list-item:hover {
+  background-color: rgba(80,80,80,.25) !important;
+}
+
+/* Hiding the Route Details */
+.leaflet-control-container .leaflet-routing-container {
+  display: none;
+}

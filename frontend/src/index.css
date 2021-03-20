@@ -1,0 +1,15 @@
+.leaflet-container {
+  height: 300px !important;
+}
+
+circle {
+  color: #ff9800 !important;
+}
+
+.MuiStepIcon-completed path {
+  color: #4caf50 !important;
+}
+
+textarea {
+  padding: auto 8px !important;
+}

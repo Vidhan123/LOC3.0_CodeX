@@ -1,0 +1,20 @@
+<svg width="1440" height="4000" viewBox="0 0 1440 4000" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<rect width="1440" height="4000" fill="white"/>
+<circle cx="1270" cy="1059" r="113" fill="#F4C82A"/>
+<ellipse cx="42.6154" cy="198.269" rx="108.5" ry="112.5" transform="rotate(-28 42.6154 198.269)" fill="#F4C82A"/>
+<circle cx="541" cy="657" r="114" fill="#F4C82A"/>
+<circle cx="1104" cy="1618" r="165" fill="#F4C82A"/>
+<circle cx="523" cy="2272" r="240" fill="#F4C82A"/>
+<ellipse cx="1382.5" cy="81.5" rx="209.5" ry="197.5" fill="#F4C82A"/>
+<ellipse cx="-5.1063" cy="1170.95" rx="209.5" ry="197.5" transform="rotate(-35 -5.1063 1170.95)" fill="#F4C82A"/>
+<ellipse rx="182" ry="165" transform="matrix(-1 0 0 1 119 3303)" fill="#F4C82A"/>
+<ellipse rx="265.5" ry="240" transform="matrix(-1 0 0 1 761.5 3957)" fill="#F4C82A"/>
+<ellipse rx="224.527" ry="204.568" transform="matrix(-0.844733 -0.535189 -0.612011 0.790849 1345.14 2855.95)" fill="#F4C82A"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="1440" height="4000" fill="white"/>
+</clipPath>
+</defs>
+</svg>
