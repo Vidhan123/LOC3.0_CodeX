@@ -6,10 +6,9 @@ const Appointment = require("../../models/appointment.js");
 const createAppointment = async (args, {req}) => {
     try {
         // if(loggedin(req)) {
-            let user_id = "60560d3b3b156f37b8b75249";
-            const patient = await User.findById(user_id);
+            const patient = await User.findById(req.user_id);
             const appointment = await Appointment.create({
-                patientId: user_id,
+                patientId: req.user_id,
                 doctorId: args.appointmentInput.doctorId,
                 date: args.appointmentInput.date,
                 status: 'Pending',
