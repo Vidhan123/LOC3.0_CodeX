@@ -193,6 +193,14 @@ const sidebarStyle = theme => ({
       ...primaryBoxShadow
     }
   },
+  gray: {
+    backgroundColor: 'rgba(89,89,89)',
+    ...primaryBoxShadow,
+    "&:hover,&:focus": {
+      backgroundColor: 'rgba(89,89,89)',
+      ...primaryBoxShadow
+    }
+  },
   blue: {
     backgroundColor: infoColor[0],
     boxShadow:
