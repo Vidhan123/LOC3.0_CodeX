@@ -7,6 +7,7 @@ const  graphqlschema =  require( './graphql/schema/index.js');
 const  graphqlResolvers =  require('./graphql/resolvers/index.js');
 const connectDB = require('./config/db.js');
 const cors = require('cors');
+const body = require("body-parser");
 
 const paymentRouter = require('./routes/paymentRouter.js');
 
@@ -50,12 +51,15 @@ app.use(
   
   io.of( '/stream' ).on( 'connection', stream );
 
-const docRouter = require('./routes/docUploads');
+const {upload, storage} = require('./routes/docUploads');
 const imageRouter = require('./routes/picUploads');
 
-app.use('/uploadimage', imageRouter);
+app.post("/uploadDoc", (args) => {
+  let name = args.name;
+  console.log(args.body);
+})
 
-app.use('/uploaddoc', docRouter);
+
 
 const PORT = process.env.PORT || 5000;
 

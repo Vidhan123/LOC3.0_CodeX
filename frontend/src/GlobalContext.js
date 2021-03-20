@@ -22,14 +22,21 @@ export const GlobalProvider = (props) => {
 
   });
 
+  const [allDoctors, setAllDoctors] = useState([]);
+
   useEffect(() => {
     console.log(userData);
   }, [userData]);
+
+  useEffect(() => {
+    console.log(allDoctors);
+  }, [allDoctors]);
 
   return (
     <GlobalContext.Provider
       value={{
         user: [userData, setUserData],
+        allDocs: [allDoctors, setAllDoctors],
       }}
     >
       {props.children}

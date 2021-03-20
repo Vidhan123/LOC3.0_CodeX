@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import MyMap from '../../components/Map/map';
 import styled from 'styled-components';
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import api from 'utils/api';
 import userImg from '../../assets/img/faces/doctor.png';
 import { useHistory } from 'react-router-dom';
+import {GlobalContext} from '../../GlobalContext';
 
 const styles = {
   cardCategoryWhite: {
@@ -50,6 +51,8 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function MapsNew() {
+  const { allDocs } = useContext(GlobalContext);
+  const [ allDoctors, setAllDoctors ] = allDocs;
   const history = useHistory();
   const classes = useStyles();
   const pickUpInit = {address:'', lat:0, lng:0};
@@ -60,10 +63,9 @@ function MapsNew() {
 
   const [mapInit, setMapInit] = useState(false);
 
-  const [doctor, setDoctor] = useState([]);
   useEffect(() => {
     const getDoctorData = async () => {
-      setDoctor(await api.getDoctors());
+      setAllDoctors(await api.getDoctors());
     };
     getDoctorData();
   }, []);
@@ -118,7 +120,7 @@ function MapsNew() {
         </CardBody>
       </Card>
       <StyledDoctorContainer>
-        {doctor.map(elem => (
+        {allDoctors.map(elem => (
           <Card>
           <CardHeader color="primary" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
             <img src={userImg} width={25} height={25} style={{ borderRadius: '50%', marginRight: 8 }}/>
@@ -126,10 +128,10 @@ function MapsNew() {
           </CardHeader>
           <CardBody>
             <StyledIndividualDoctorPanel>
-              <span style={{ textTransform: 'uppercase' }}>{elem.specialization === null ? "Not Specified" : elem.specialization}</span>
-              <span style={{ textTransform: 'capitalize' }}>{elem.sex === null ? "NOT SPECIFIED" : elem.sex}</span>
-              <span>{elem.age === null ? "Not Specified" : elem.age}</span>
-              <span style={{ borderTop: 'solid', borderColor: "#ccc", borderWidth: 1, padding: '4px auto', margin: '4px 0' }}>{elem.about === null ? "Not Specified" : elem.about}</span>
+              <span style={{ textTransform: 'capitalize' }}>Specialization: {elem.specialization === null ? "Not Specified" : elem.specialization}</span>
+              <span style={{ textTransform: 'capitalize' }}>Gender: {elem.sex === null ? "NOT SPECIFIED" : elem.sex}</span>
+              <span>Age: {elem.age === null || elem.age === "" ? "Not Specified" : elem.age}</span>
+              <span style={{ borderTop: 'solid', borderColor: "#ccc", borderWidth: 1, padding: '4px auto', margin: '4px 0' }}>About: {elem.about === "" ? "Not Specified" : elem.about}</span>
             </StyledIndividualDoctorPanel>
             <StyledButton
                   fullWidth

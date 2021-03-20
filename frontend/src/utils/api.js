@@ -129,7 +129,7 @@ const api = {
                   longitude
                 }
               }
-            }            
+            }
             `,
         },
         {
@@ -139,6 +139,34 @@ const api = {
           },
     );
     return data.data.data.searchParticularDoctor;
+    },
+    createAppointment: async (docId, date, description) => {
+      const data = await axios.post(
+        url,
+        {
+            query: `
+            mutation{
+              createAppointment(appointmentInput: {
+                doctorId: ${docId},
+                date: ${date},
+                description: ${description},
+              }){
+                doctorId
+                patientId
+                _id
+                date
+                status
+              }
+            }
+            `,
+        },
+        {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+    );
+    return data.data.data.createAppointment;
     },
 };
 

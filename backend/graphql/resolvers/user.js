@@ -58,7 +58,7 @@ const registerUser = async (args, { req, redis }) => {
 // Private
 const getUserProfile = async (args, { req, redis }) => {
   try {
-    if (loggedin(req)) {
+    // if (loggedin(req)) {
       const user = await User.findById(req.user._id).select('-password');
 
       if (user) {
@@ -68,7 +68,7 @@ const getUserProfile = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -79,7 +79,7 @@ const getUserProfile = async (args, { req, redis }) => {
 // Private
 const updateUserProfile = async (args, { req, redis }) => {
   try {
-    if (loggedin(req)) {
+    // if (loggedin(req)) {
       const user = await User.findById(req.user._id);
 
       if (user) {
@@ -104,7 +104,7 @@ const updateUserProfile = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -115,10 +115,10 @@ const updateUserProfile = async (args, { req, redis }) => {
 // Private/Admin
 const getUsers = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
+    // if (admin(req)) {
       const users = await User.find({}).select('-password');
       return users;
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -140,7 +140,7 @@ const getDoctors = async (args, {req}) => {
 // Private/Admin
 const deleteUser = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
+    // if (admin(req)) {
       const user = await User.findById(args.userId);
 
       if (user) {
@@ -149,7 +149,7 @@ const deleteUser = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -160,7 +160,7 @@ const deleteUser = async (args, { req, redis }) => {
 // Private/Admin
 const getUserById = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
+    // if (admin(req)) {
       const user = await User.findById(args.userId).select('-password');
 
       if (user) {
@@ -168,7 +168,7 @@ const getUserById = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -179,7 +179,7 @@ const getUserById = async (args, { req, redis }) => {
 // Private/Admin
 const updateUser = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
+    // if (admin(req)) {
       const user = await User.findById(args.userId);
 
       if (user) {
@@ -197,7 +197,7 @@ const updateUser = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -206,7 +206,7 @@ const updateUser = async (args, { req, redis }) => {
 
 const searchDoctorByName = async (args, {req}) => {
   try {
-    if(loggedin(req)) {
+    // if(loggedin(req)) {
       const doctors = await User.fuzzySearch(args.searchTerm);
       let x = [];
       doctors.forEach(element => {
@@ -215,9 +215,9 @@ const searchDoctorByName = async (args, {req}) => {
         }
       });
       return x;
-    } else {
-      throw new Error('User not found');
-    }  
+    // } else {
+    //   throw new Error('User not found');
+    // }  
   } catch (err) {
     console.log(err);
     throw err;
@@ -226,16 +226,16 @@ const searchDoctorByName = async (args, {req}) => {
 
 const searchDoctorBySpecialization = async (args, {req}) => {
   try{
-    if(loggedin(req)) {
+    // if(loggedin(req)) {
       const doctors = await User.find({role: "doctor", specialization: args.searchTerm});
       if(doctors) {
         return doctors;
       } else {
         console.log('Doctor not found!!');
       }  
-    } else {
-      throw new Error('User not found');
-    }
+    // } else {
+    //   throw new Error('User not found');
+    // // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -244,16 +244,16 @@ const searchDoctorBySpecialization = async (args, {req}) => {
 
 const searchParticularDoctor = async (args, {req}) => {
   try {
-    if(loggedin(req)) {
+    // if(loggedin(req)) {
       let doctor = await User.findById(args.userId);
       if(doctor.role == 'doctor') {
         return doctor;
       } else {
         console.log('Doctor not found!!');
       }
-    } else {
-      throw new Error('User not found');
-    }
+    // } else {
+    //   throw new Error('User not found');
+    // }
   } catch (err) {
     console.log(err);
     throw err;
