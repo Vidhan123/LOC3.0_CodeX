@@ -13,15 +13,12 @@ import RTL from "layouts/RTL.js";
 // views
 import {AccountBox} from './views/Login/accountBox';
 
-import { Notifications } from 'react-push-notification';
-
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 
 const hist = createBrowserHistory();
 
 ReactDOM.render(
   <GlobalProvider>
-    <Notifications />
   <Router history={hist}>
     <Switch>
       <Route path="/user" component={Admin} />

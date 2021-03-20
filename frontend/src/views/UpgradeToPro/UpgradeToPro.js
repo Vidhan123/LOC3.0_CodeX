@@ -87,7 +87,7 @@ export default function UpgradeToPro() {
   const classes = useStyles();
   return (
     <GridContainer justify="center">
-      <GridItem xs={12} sm={12} md={8}>
+      {/* <GridItem xs={12} sm={12} md={8}>
         <Card>
           <CardHeader color="info">
             <h4 className={classes.cardTitleWhite}>
@@ -206,7 +206,7 @@ export default function UpgradeToPro() {
             </div>
           </CardBody>
         </Card>
-      </GridItem>
+      </GridItem> */}
     </GridContainer>
   );
 }

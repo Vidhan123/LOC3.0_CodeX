@@ -34,7 +34,7 @@ const viewAppointment = async (args, {req}) => {
             let d = new Date();
             const user = await User.findById(args.user_id);
             if(user.role=="patient") {
-                const appointment = await Appointment.find({patientId: user_id});
+                const appointment = await Appointment.find({patientId: user._id});
                 if (appointment) {
                     appointment.forEach(element => {
                         let date = element.date;
