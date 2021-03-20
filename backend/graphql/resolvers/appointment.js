@@ -9,8 +9,6 @@ const nexmo = new Nexmo({
   apiSecret: 'Wp2ilpO0Kecqi1sD',
 });
 
-
-
 const createAppointment = async (args, {req}) => {
     try {
         // if(loggedin(req)) {
@@ -31,7 +29,6 @@ const createAppointment = async (args, {req}) => {
                     if(error) { 
                         console.log("ERROR", error) 
                     } 
-                
                     else { 
                         console.log("RESULT", result) 
                         console.log(text);
@@ -133,7 +130,6 @@ const cancelAppointment = async (args, {req}) => {
                         if(error) { 
                             console.log("ERROR", error) 
                         } 
-                    
                         else { 
                             console.log("RESULT", result) 
                             console.log(text);
@@ -169,7 +165,6 @@ const changeStatus = async (args, {req}) => {
                         if(error) { 
                             console.log("ERROR", error) 
                         } 
-                    
                         else { 
                             console.log("RESULT", result) 
                             console.log(text);
