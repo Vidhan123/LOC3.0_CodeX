@@ -140,16 +140,17 @@ const api = {
     );
     return data.data.data.searchParticularDoctor;
     },
-    createAppointment: async (docId, date, description) => {
+    createAppointment: async (docId, date, description, pId) => {
       const data = await axios.post(
         url,
         {
             query: `
             mutation{
               createAppointment(appointmentInput: {
-                doctorId: ${docId},
-                date: ${date},
-                description: ${description},
+                doctorId: "${docId}",
+                date: "${date}",
+                description: "${description}",
+                patientId: "${pId}",
               }){
                 doctorId
                 patientId
@@ -168,6 +169,18 @@ const api = {
     );
     console.log(data);
     return data.data.data.createAppointment;
+    },
+    uploadDoc: async (id, files) => {
+      console.log(files);
+      const postData = new FormData();
+      postData.append('id', id);
+      postData.append('file', files);
+      const data = await axios.post(
+        'http://localhost:5000/uploadDoc',
+        postData,
+    );
+    console.log(data);
+    return data;
     },
     searchDoctorByName: async (searchTerm) => {
       const data = await axios.post(

@@ -107,7 +107,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TypographyPage() {
-  const { allDocs } = useContext(GlobalContext);
+  const { allDocs, user } = useContext(GlobalContext);
+  const [ userData, setUserData ] = user;
   const [ allDoctors, setAllDoctors ] = allDocs;
   const { docId } = useParams();
   const history = useHistory();
@@ -182,6 +183,7 @@ export default function TypographyPage() {
           <StyledFileInputContainer className={classes.container}>
             <StyledFileInput type="file" placeholder="Upload File" variant="outlined" onChange={(e) => {
               setFile(e.target.files[0]);
+              console.log(e.target.files);
             }}/>
         </StyledFileInputContainer>
         );
@@ -196,7 +198,8 @@ export default function TypographyPage() {
   const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if(activeStep === steps.length - 1){
-      const data = await api.createAppointment(bookAppointment.doctorId, bookAppointment.dateTime, bookAppointment.description);
+      const data = await api.createAppointment(bookAppointment.doctorId, bookAppointment.dateTime, bookAppointment.description, userData._id);
+      const fls = await api.uploadDoc(data._id, file);
     }
   };
 

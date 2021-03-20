@@ -224,7 +224,10 @@ export default function AdminNavbarLinks() {
           )}
         </Poppers>
       </div> */}
-      <IconButton style={{margin: '25px'}} onClick={() => history.push('/')} >
+      <IconButton style={{margin: '25px'}} onClick={() => {
+        history.push('/');
+        window.sessionStorage.removeItem('LOC_user');
+        }} >
         <PowerSettingsNewIcon />
       </IconButton>
     </div>
