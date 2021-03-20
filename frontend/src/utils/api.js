@@ -71,7 +71,7 @@ const api = {
         );
         return data; 
     },
-    getDoctor: async () => {
+    getDoctors: async () => {
       const data = await axios.post(
         url,
         {
@@ -88,6 +88,11 @@ const api = {
                 sex
                 specialization
                 token
+                about
+                location {
+                  latitude
+                  longitude
+                }
               }
             }
             `,
@@ -100,6 +105,40 @@ const api = {
     );
     console.log(data.data.data.getDoctors);
     return data.data.data.getDoctors;
+    },
+    searchParticularDoctor: async (docId) => {
+      const data = await axios.post(
+        url,
+        {
+            query: `
+            query{
+              searchParticularDoctor(userId: "${docId}"){
+                _id
+                name
+                phoneNo
+                email
+                password
+                role
+                age
+                sex
+                specialization
+                token
+                about
+                location {
+                  latitude
+                  longitude
+                }
+              }
+            }            
+            `,
+        },
+        {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+    );
+    return data.data.data.searchParticularDoctor;
     },
 };
 

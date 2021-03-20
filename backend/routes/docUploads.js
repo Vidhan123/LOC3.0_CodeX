@@ -34,9 +34,12 @@ const upload = multer({
   },
 })
 
-docRouter.post('/', upload.single('file'), (req, res) => {
-  console.log(`/${req.file.path}`);
-  res.send(`/${req.file.path}`);
-})
+// docRouter.post('/', upload.single('file'), (req, res) => {
+//   console.log(`/${req.file.path}`);
+//   res.send(`/${req.file.path}`);
+// })
 
-module.exports = docRouter;
+module.exports = {
+  upload,
+  storage
+}

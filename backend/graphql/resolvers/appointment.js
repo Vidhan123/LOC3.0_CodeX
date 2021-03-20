@@ -5,11 +5,12 @@ const Appointment = require("../../models/appointment.js");
 
 const createAppointment = async (args, {req}) => {
     try {
-        if(loggedin(req)) {
+        // if(loggedin(req)) {
             const patient = await User.findById(req.user_id);
             const appointment = await Appointment.create({
-                patientId: user_id,
+                patientId: req.user_id,
                 doctorId: args.appointmentInput.doctorId,
+                description: args.appointmentInput.description,
                 date: args.appointmentInput.date,
                 status: 'Pending',
             });
@@ -18,9 +19,9 @@ const createAppointment = async (args, {req}) => {
                     ...appointment._doc
                 };
             } else {
-                throw new Error('Some error occures! Please try again later');
+                throw new Error('Some error occured! Please try again later');
             }
-        }
+        // }
     } catch (err) {
         console.log(err);
         throw err;
@@ -29,7 +30,7 @@ const createAppointment = async (args, {req}) => {
 
 const viewAppointment = async (args, {req}) => {
     try {
-        if(loggedin(req)) {
+        // if(loggedin(req)) {
             let d = new Date();
             const user = await User.findById(req.user_id);
             if(user.role=="patient") {
@@ -85,7 +86,7 @@ const viewAppointment = async (args, {req}) => {
                     throw new Error('No appointments found!!');
                 }
             }
-        }
+        // }
     } catch (err) {
         console.log(err);
         throw err;
@@ -94,7 +95,7 @@ const viewAppointment = async (args, {req}) => {
 
 const cancelAppointment = async (args, {req}) => {
     try {
-        if(loggedin(req)) {
+        // if(loggedin(req)) {
             const appointment = await Appointment.findById(args.appointment_id);
             if(appointment) {
                 appointment.status = 'Canceled';
@@ -107,7 +108,7 @@ const cancelAppointment = async (args, {req}) => {
             } else {
                 throw new Error('No appointments found!!');
             }
-        }    
+        // }    
     } catch (err) {
         console.log(err);
         throw err;
@@ -116,7 +117,7 @@ const cancelAppointment = async (args, {req}) => {
 
 const changeStatus = async (args, {req}) => {
     try {
-        if(loggedin(req)) {
+        // if(loggedin(req)) {
             const appointment = await Appointment.findById(args.appointment_id);
             if(appointment) {
                 appointment.status = 'Visited';
@@ -129,7 +130,7 @@ const changeStatus = async (args, {req}) => {
             } else {
                 throw new Error('No appointments found!!');
             }
-        }
+        // }
     } catch (err) {
         console.log(err);
         throw err;

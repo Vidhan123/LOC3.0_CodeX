@@ -58,7 +58,7 @@ const registerUser = async (args, { req, redis }) => {
 // Private
 const getUserProfile = async (args, { req, redis }) => {
   try {
-    if (loggedin(req)) {
+    // if (loggedin(req)) {
       const user = await User.findById(req.user._id).select('-password');
 
       if (user) {
@@ -68,7 +68,7 @@ const getUserProfile = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -79,8 +79,8 @@ const getUserProfile = async (args, { req, redis }) => {
 // Private
 const updateUserProfile = async (args, { req, redis }) => {
   try {
-    if (loggedin(req)) {
-      const user = await User.findById(req.user._id);
+    // if (loggedin(req)) {
+      const user = await User.findById("60561b9921042c101c1b26fa");
 
       if (user) {
         user.name = args.userInput.name || user.name;
@@ -104,7 +104,7 @@ const updateUserProfile = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -115,21 +115,31 @@ const updateUserProfile = async (args, { req, redis }) => {
 // Private/Admin
 const getUsers = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
+    // if (admin(req)) {
       const users = await User.find({}).select('-password');
       return users;
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
   }
 };
 
-const getDoctors = async (args, {req}) => {
+const getDoctors = async (args, {req, redis}) => {
   try {
-    const doctors = await User.find({role: "doctor"});
-    // console.log(doctors);
-    return doctors;
+    const doct = await redis.get('doctors:all');
+    if(doct) {
+      return JSON.parse(doct);    
+    } else {
+      const doctors = await User.find({role: "doctor"});
+      if(doctors) {
+        redis.setex('doctors:all', process.env.SLOW_CACHE, JSON.stringify(doctors));
+        return doctors
+      } else {
+        res.status(404);
+        console.log("No doctors");
+      }
+    };
   } catch (err) {
     console.log(err);
     throw err;
@@ -140,7 +150,7 @@ const getDoctors = async (args, {req}) => {
 // Private/Admin
 const deleteUser = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
+    // if (admin(req)) {
       const user = await User.findById(args.userId);
 
       if (user) {
@@ -149,7 +159,7 @@ const deleteUser = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -160,7 +170,7 @@ const deleteUser = async (args, { req, redis }) => {
 // Private/Admin
 const getUserById = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
+    // if (admin(req)) {
       const user = await User.findById(args.userId).select('-password');
 
       if (user) {
@@ -168,7 +178,7 @@ const getUserById = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -179,7 +189,7 @@ const getUserById = async (args, { req, redis }) => {
 // Private/Admin
 const updateUser = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
+    // if (admin(req)) {
       const user = await User.findById(args.userId);
 
       if (user) {
@@ -197,7 +207,7 @@ const updateUser = async (args, { req, redis }) => {
       } else {
         throw new Error('User not found');
       }
-    }
+    // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -206,7 +216,7 @@ const updateUser = async (args, { req, redis }) => {
 
 const searchDoctorByName = async (args, {req}) => {
   try {
-    if(loggedin(req)) {
+    // if(loggedin(req)) {
       const doctors = await User.fuzzySearch(args.searchTerm);
       let x = [];
       doctors.forEach(element => {
@@ -215,9 +225,9 @@ const searchDoctorByName = async (args, {req}) => {
         }
       });
       return x;
-    } else {
-      throw new Error('User not found');
-    }  
+    // } else {
+    //   throw new Error('User not found');
+    // }  
   } catch (err) {
     console.log(err);
     throw err;
@@ -226,16 +236,16 @@ const searchDoctorByName = async (args, {req}) => {
 
 const searchDoctorBySpecialization = async (args, {req}) => {
   try{
-    if(loggedin(req)) {
+    // if(loggedin(req)) {
       const doctors = await User.find({role: "doctor", specialization: args.searchTerm});
       if(doctors) {
         return doctors;
       } else {
         console.log('Doctor not found!!');
       }  
-    } else {
-      throw new Error('User not found');
-    }
+    // } else {
+    //   throw new Error('User not found');
+    // // }
   } catch (err) {
     console.log(err);
     throw err;
@@ -244,16 +254,16 @@ const searchDoctorBySpecialization = async (args, {req}) => {
 
 const searchParticularDoctor = async (args, {req}) => {
   try {
-    if(loggedin(req)) {
+    // if(loggedin(req)) {
       let doctor = await User.findById(args.userId);
       if(doctor.role == 'doctor') {
         return doctor;
       } else {
         console.log('Doctor not found!!');
       }
-    } else {
-      throw new Error('User not found');
-    }
+    // } else {
+    //   throw new Error('User not found');
+    // }
   } catch (err) {
     console.log(err);
     throw err;
