@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -13,6 +13,8 @@ import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import MyMap from "components/Map/map.js";
+import {GlobalContext} from '../../GlobalContext'
+import api from "../../utils/api";
 
 import avatar from "assets/img/faces/marc.jpg";
 
@@ -38,6 +40,14 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
+  const { user } = useContext(GlobalContext);
+  const [userD, setUserD] = React.useState({});
+
+  React.useEffect(() => {
+    const data = api.getUserById(user.id);
+    setUserD(data);
+  }, [])
+
   const initials = {name:'',mobileNo:'',address:''};
   const [updated, setUpdate] = useState(initials);
 
@@ -152,7 +162,7 @@ export default function UserProfile() {
             </CardAvatar>
             <CardBody profile>
               {/* <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6> */}
-              <h4 className={classes.cardTitle}>Alec Thompson</h4>
+              <h4 className={classes.cardTitle}>{userD.name ? userD.name : ''}</h4>
               <p className={classes.description}>
                 Computer Engineering student at D J Sanghvi College Of Engineering
               </p>

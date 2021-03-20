@@ -212,6 +212,37 @@ const api = {
     );
     return (data.data.data.authUser);
   },
+  getUserById: async (ID) => {
+    const data = await axios.post(
+        url,
+        {
+          query: `
+          query {
+            getUserById(userId: "${ID}") {
+              name
+              phoneNo
+              email
+              password
+              role
+              age
+              sex
+              about
+              location {
+                latitude
+                longitude
+              }
+            }
+          }
+        `,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+    );
+    return (data.data.data.getUserById);
+  },
 };
 
 export default api;
