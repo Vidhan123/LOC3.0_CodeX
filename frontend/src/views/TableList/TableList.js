@@ -61,7 +61,7 @@ export default function TableList() {
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="primary">
+          <CardHeader color="info">
             <h4 className={classes.cardTitleWhite}>Upcoming Appointments</h4>
             <p className={classes.cardCategoryWhite}>
               Here is a list of your upcoming appointments
@@ -69,7 +69,7 @@ export default function TableList() {
           </CardHeader>
           <CardBody>
             <Table
-              tableHeaderColor="primary"
+              tableHeaderColor="info"
               tableHead={["ID", "Doctor's Name", "Date/Time", "Status"]}
               tableData={uApp}
             />
@@ -78,7 +78,7 @@ export default function TableList() {
       </GridItem>
       <GridItem xs={12} sm={12} md={12}>
       <Card>
-          <CardHeader color="primary">
+          <CardHeader color="info">
             <h4 className={classes.cardTitleWhite}>Previous Appointments</h4>
             <p className={classes.cardCategoryWhite}>
               Here is a list of your previous appointments
@@ -86,7 +86,7 @@ export default function TableList() {
           </CardHeader>
           <CardBody>
             <Table
-              tableHeaderColor="primary"
+              tableHeaderColor="info"
               tableHead={["ID", "Doctor's Name", "Date/Time", "Status"]}
               tableData={pApp}
             />
