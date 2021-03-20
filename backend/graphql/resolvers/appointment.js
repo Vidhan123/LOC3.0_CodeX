@@ -8,8 +8,9 @@ const createAppointment = async (args, {req}) => {
         // if(loggedin(req)) {
             const patient = await User.findById(req.user_id);
             const appointment = await Appointment.create({
-                patientId: req.user_id,
+                patientId: "60560d3b3b156f37b8b75249",
                 doctorId: args.appointmentInput.doctorId,
+                description: args.appointmentInput.description,
                 date: args.appointmentInput.date,
                 status: 'Pending',
             });
