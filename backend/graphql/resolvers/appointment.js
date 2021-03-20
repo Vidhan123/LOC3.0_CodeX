@@ -34,6 +34,7 @@ const createAppointment = async (args, {req}) => {
                 
                     else { 
                         console.log("RESULT", result) 
+                        console.log(text);
                     } 
                 }); 
                 return {
@@ -124,6 +125,20 @@ const cancelAppointment = async (args, {req}) => {
                 appointment.status = 'Canceled';
                 const updatedAppointment = await appointment.save();
                 if(updatedAppointment) {
+                    const from = 'CodeX Clinic';
+                    const to = '917021834798';
+                    const text = 'Your appointment has been canceled';
+                    nexmo.message.sendSms(from, to, text, 
+                        function(error, result) {    
+                        if(error) { 
+                            console.log("ERROR", error) 
+                        } 
+                    
+                        else { 
+                            console.log("RESULT", result) 
+                            console.log(text);
+                        } 
+                    }); 
                     return {msg: 'Appointment canceled!!'};
                 } else {
                     return {msg: 'Some error occures! Please try again later'};
@@ -146,6 +161,20 @@ const changeStatus = async (args, {req}) => {
                 appointment.status = 'Visited';
                 const updatedAppointment = await appointment.save();
                 if(updatedAppointment) {
+                    const from = 'CodeX Clinic';
+                    const to = '917021834798';
+                    const text = 'You have visited your appointment';
+                    nexmo.message.sendSms(from, to, text, 
+                        function(error, result) {    
+                        if(error) { 
+                            console.log("ERROR", error) 
+                        } 
+                    
+                        else { 
+                            console.log("RESULT", result) 
+                            console.log(text);
+                        } 
+                    }); 
                     return {msg: 'Appointment visited!!'};
                 } else {
                     return {msg: 'Some error occures! Please try again later'};
