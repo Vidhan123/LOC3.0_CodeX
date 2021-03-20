@@ -18,7 +18,7 @@ const buildschema =  buildSchema(`
         searchDoctorBySpecialization(searchTerm: String!): [User!]
         searchParticularDoctor(userId: ID!): User!
 
-        viewAppointment: [Appointment!]!
+        viewAppointment(user_id: ID!): [Appointment!]!
         cancelAppointment(appointment_id: ID!): Response!
         changeStatus(appointment_id: ID!): Response!
     }

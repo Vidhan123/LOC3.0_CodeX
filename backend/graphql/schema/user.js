@@ -6,8 +6,8 @@ const UserSchema = `
     }
 
     input LocationInput {
-        latitude: Int
-        longitude: Int
+        latitude: Float
+        longitude: Float
     }
 
     type User {
@@ -27,7 +27,8 @@ const UserSchema = `
 
 
     input UserInput {
-        name: String
+        _id: ID
+        name: String!
         phoneNo: String
         email: String!
         password: String!
@@ -40,6 +41,7 @@ const UserSchema = `
     }
     
     input UpdateUserInput {
+        _id: ID!
         name: String
         phoneNo: String
         email: String

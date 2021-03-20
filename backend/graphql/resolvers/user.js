@@ -80,7 +80,7 @@ const getUserProfile = async (args, { req, redis }) => {
 const updateUserProfile = async (args, { req, redis }) => {
   try {
     // if (loggedin(req)) {
-      const user = await User.findById("60561b9921042c101c1b26fa");
+      const user = await User.findById(args.userInput._id);
 
       if (user) {
         user.name = args.userInput.name || user.name;

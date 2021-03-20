@@ -10,6 +10,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
 import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
@@ -18,6 +19,7 @@ import Search from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import { useHistory } from 'react-router-dom';
@@ -52,7 +54,7 @@ export default function AdminNavbarLinks() {
   };
   return (
     <div>
-      <div className={classes.searchWrapper}>
+      {/* <div className={classes.searchWrapper}>
         <CustomInput
           formControlProps={{
             className: classes.margin + " " + classes.search
@@ -221,7 +223,10 @@ export default function AdminNavbarLinks() {
             </Grow>
           )}
         </Poppers>
-      </div>
+      </div> */}
+      <IconButton style={{margin: '25px'}} onClick={() => history.push('/')} >
+        <PowerSettingsNewIcon />
+      </IconButton>
     </div>
   );
 }

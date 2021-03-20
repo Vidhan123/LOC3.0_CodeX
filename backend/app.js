@@ -104,6 +104,7 @@ const Appointment = require('./models/appointment.js')
 
 app.post('/uploadImage', upload.single('doc'), async (req, res) => {
   const {id} = req.body;
+  console.log(id);
   const user = await User.findById(id);
   if(user) {
     user.image = `/${req.file.path}`;
