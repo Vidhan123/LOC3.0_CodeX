@@ -25,7 +25,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Avatar } from '@material-ui/core';
 
 import styled from 'styled-components';
-
+import api from '../../utils/api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,6 +101,16 @@ export default function TypographyPage() {
   const { docId } = useParams();
   console.log(docId);
   const classes = useStyles();
+
+  const [doctor, setDoctor] = useState({});
+
+  useEffect(() => {
+    const fetchDoctorHandler = async () => {
+      setDoctor(await api.searchParticularDoctor(docId));
+    };
+    console.log(doctor);
+    fetchDoctorHandler();
+  }, [docId]);
 
   const [bookAppointment, setBookAppointment] = useState({
     doctorId: docId,

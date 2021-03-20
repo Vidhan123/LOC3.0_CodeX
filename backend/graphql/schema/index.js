@@ -1,7 +1,6 @@
 const { buildSchema } = require('graphql');
 const { UserSchema } = require('./user.js');
 const { AppointmentSchema } = require('./appoinment.js');
-const { GraphQLDateTime } = require("graphql-iso-date");
 
 const buildschema =  buildSchema(`
     ${UserSchema}

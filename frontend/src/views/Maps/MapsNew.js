@@ -15,6 +15,7 @@ import CustomInput from "components/CustomInput/CustomInput";
 import { Link } from 'react-router-dom';
 import api from 'utils/api';
 import userImg from '../../assets/img/faces/doctor.png';
+import { useHistory } from 'react-router-dom';
 
 const styles = {
   cardCategoryWhite: {
@@ -49,6 +50,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function MapsNew() {
+  const history = useHistory();
   const classes = useStyles();
   const pickUpInit = {address:'', lat:0, lng:0};
   const [pickUp,setPickUp] = useState(pickUpInit);
@@ -59,8 +61,11 @@ function MapsNew() {
   const [mapInit, setMapInit] = useState(false);
 
   const [doctor, setDoctor] = useState([]);
-  useEffect(async () => {
-    setDoctor(await api.getDoctor());
+  useEffect(() => {
+    const getDoctorData = async () => {
+      setDoctor(await api.getDoctors());
+    };
+    getDoctorData();
   }, []);
 
   return(
@@ -124,15 +129,19 @@ function MapsNew() {
               <span style={{ textTransform: 'uppercase' }}>{elem.specialization === null ? "Not Specified" : elem.specialization}</span>
               <span style={{ textTransform: 'capitalize' }}>{elem.sex === null ? "NOT SPECIFIED" : elem.sex}</span>
               <span>{elem.age === null ? "Not Specified" : elem.age}</span>
+              <span style={{ borderTop: 'solid', borderColor: "#ccc", borderWidth: 1, padding: '4px auto', margin: '4px 0' }}>{elem.about === null ? "Not Specified" : elem.about}</span>
             </StyledIndividualDoctorPanel>
             <StyledButton
                   fullWidth
                   color="primary"
-                  onClick={() => {}}
+                  onClick={() => {
+                    history.push(`/user/bookAppointment/${elem._id}`);
+                  }}
                   >
-                    <Link to={`bookAppointment/3`} style={{ color: '#fff' }}>
+                    Book an Appointment
+                    {/* <Link to={`/bookAppointment/3`} style={{ color: '#fff' }}>
                       Book an Appointment
-                    </Link>
+                    </Link> */}
                   </StyledButton>
           </CardBody>
           </Card>

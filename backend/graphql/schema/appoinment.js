@@ -1,5 +1,3 @@
-const { GraphQLDateTime } = require("graphql-iso-date");
-
 const AppointmentSchema = `
 
     type Appointment {

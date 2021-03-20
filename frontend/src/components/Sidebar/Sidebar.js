@@ -34,6 +34,9 @@ export default function Sidebar(props) {
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
+        if(prop.path === '/bookAppointment/:docId'){
+          return;
+        }
         var activePro = " ";
         var listItemClasses;
         if (prop.path === "/upgrade-to-pro") {
