@@ -125,11 +125,21 @@ const getUsers = async (args, { req, redis }) => {
   }
 };
 
-const getDoctors = async (args, {req}) => {
+const getDoctors = async (args, {req, redis}) => {
   try {
-    const doctors = await User.find({role: "doctor"});
-    // console.log(doctors);
-    return doctors;
+    const doct = await redis.get('doctors:all');
+    if(doct) {
+      return JSON.parse(doct);    
+    } else {
+      const doctors = await User.find({role: "doctor"});
+      if(doctors) {
+        redis.setex('doctors:all', process.env.SLOW_CACHE, JSON.stringify(doctors));
+        return doctors
+      } else {
+        res.status(404);
+        console.log("No doctors");
+      }
+    };
   } catch (err) {
     console.log(err);
     throw err;

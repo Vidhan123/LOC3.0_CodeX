@@ -8,7 +8,7 @@ const createAppointment = async (args, {req}) => {
         // if(loggedin(req)) {
             const patient = await User.findById(req.user_id);
             const appointment = await Appointment.create({
-                patientId: "60560d3b3b156f37b8b75249",
+                patientId: req.user_id,
                 doctorId: args.appointmentInput.doctorId,
                 description: args.appointmentInput.description,
                 date: args.appointmentInput.date,
@@ -19,7 +19,7 @@ const createAppointment = async (args, {req}) => {
                     ...appointment._doc
                 };
             } else {
-                throw new Error('Some error occures! Please try again later');
+                throw new Error('Some error occured! Please try again later');
             }
         // }
     } catch (err) {
