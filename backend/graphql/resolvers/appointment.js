@@ -32,9 +32,11 @@ const viewAppointment = async (args, {req}) => {
     try {
         // if(loggedin(req)) {
             let d = new Date();
+            console.log(args);
             const user = await User.findById(args.user_id);
             if(user.role=="patient") {
-                const appointment = await Appointment.find({patientId: user_id});
+                const appointment = await Appointment.find({patientId: user._id}).populate('doctorId');
+                console.log(appointment);
                 if (appointment) {
                     appointment.forEach(element => {
                         let date = element.date;

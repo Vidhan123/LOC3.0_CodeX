@@ -250,6 +250,78 @@ const api = {
         );
         return data.data.data.searchDoctorBySpecialization;
     },
+    updateUserProfile: async (ID ,name, phoneNo, email, password, sex, age, about, lat, lng) => {
+      const data = await axios.post(
+          url,
+          {
+              query: `
+              mutation {
+                updateUserProfile(userInput: {
+                  _id: "${ID}"
+                  name: "${name}",
+                  phoneNo: "${phoneNo}",
+                  email: "${email}",
+                  password: "${password}",
+                  age: ${age},
+                  sex: "${sex}",
+                  about: "${about}",
+                  location: {
+                    latitude: ${lat}
+                    longitude: ${lng}
+                  }
+                }) {
+                  name
+                  phoneNo,
+                  email,
+                  password,
+                  age,
+                  sex,
+                  about,
+                  location {
+                    latitude
+                    longitude
+                  }
+                }
+              }
+              `,
+          },
+          {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+      );
+      return (data.data.data.updateUserProfile); 
+  },
+  authUser: async (email, password) => {
+    const data = await axios.post(
+        url,
+        {
+          query: `
+          query {
+            authUser(email: "${email}", password: "${password}"){
+              _id
+              name
+              phoneNo
+              email
+              password
+              role
+              age
+              sex
+              specialization
+              token
+            }
+          }
+        `,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+    );
+    return (data.data.data.authUser);
+  },
 };
 
 export default api;

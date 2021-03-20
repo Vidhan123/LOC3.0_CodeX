@@ -8,14 +8,14 @@ import axios from 'axios';
 // onClick={paymentHandler}
 
 function usePayment() {
-  const [orderAmount, setOrderAmount] = useState(50);
+  // const [orderAmount, setOrderAmount] = useState(50);
   const [myColor, setMyColor] = useState("#686CFD");
   const myAppName = "CodeX";
   const myDescription = "";
 
-  const paymentHandler = async (e) => {
+  const paymentHandler = async (orderAmount) => {
     const API_URL = 'http://localhost:5000/'
-    e.preventDefault();
+    // e.preventDefault();
     const orderUrl = `${API_URL}order`;
     const response = await axios.get(orderUrl,
        { params: { amount: orderAmount } });
@@ -44,7 +44,7 @@ function usePayment() {
     rzp1.open();
   };
 
-  return [paymentHandler, setOrderAmount, setMyColor]
+  return [paymentHandler, setMyColor]
 }
 
 export default usePayment;
