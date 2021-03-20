@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
@@ -14,12 +14,17 @@ import Icon from "@material-ui/core/Icon";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
+import userAvatar from "../../assets/img/faces/marc.jpg";
 
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
+import { GlobalContext } from '../../GlobalContext';
 
 const useStyles = makeStyles(styles);
 
 export default function Sidebar(props) {
+  const { user } = useContext(GlobalContext);
+  const [ userData, setUserData ] = user;
+
   const classes = useStyles();
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
@@ -90,9 +95,9 @@ export default function Sidebar(props) {
         target="_blank"
       >
         <div className={classes.logoImage}>
-          <img src={logo} alt="logo" className={classes.img} />
+          <img src={userAvatar} alt="logo" className={classes.img} />
         </div>
-        {logoText}
+        {userData.name}
       </div>
     </div>
   );

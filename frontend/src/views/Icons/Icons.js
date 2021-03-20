@@ -11,55 +11,100 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 
 import styles from "assets/jss/material-dashboard-react/views/iconsStyle.js";
+import { Avatar } from '@material-ui/core';
+import doctor from '../../assets/img/faces/doctor.png';
+import styled from 'styled-components';
+import CustomButton from '../../components/CustomButtons/Button';
+import VideoCallIcon from '@material-ui/icons/VideoCall';
+import CloseIcon from '@material-ui/icons/Close';
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles({
+  ...styles,
+  large: {
+    width: 125,
+    height: 125,
+    padding: 2,
+    borderRadius: '50%',
+    border: '2px solid #ff9800', 
+  },
+});
 
 export default function Icons() {
   const classes = useStyles();
+  const arr = [1, 2, 3, 4, 5];
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>Material Design Icons</h4>
+        <Card>
+          <CardHeader plain color="warning">
+            <h4 className={classes.cardTitleWhite}>Appointments</h4>
             <p className={classes.cardCategoryWhite}>
-              Handcrafted by our friends from{" "}
-              <a
-                href="https://design.google.com/icons/?ref=creativetime"
-                target="_blank"
-              >
-                Google
-              </a>
+              Click on join to continue.  
             </p>
           </CardHeader>
           <CardBody>
-            <Hidden only={["sm", "xs"]}>
-              <iframe
-                className={classes.iframe}
-                src="https://material.io/icons/"
-                title="Icons iframe"
-              >
-                <p>Your browser does not support iframes.</p>
-              </iframe>
-            </Hidden>
-            <Hidden only={["lg", "md"]}>
-              <GridItem xs={12} sm={12} md={6}>
-                <h5>
-                  The icons are visible on Desktop mode inside an iframe. Since
-                  the iframe is not working on Mobile and Tablets please visit
-                  the icons on their original page on Google. Check the
-                  <a
-                    href="https://design.google.com/icons/?ref=creativetime"
-                    target="_blank"
+            {arr.map(elem => (
+              <StyledDoctorDataContainer>
+              <Avatar src={doctor} className={classes.large}/>
+              <StyledDoctorData>
+                <StyledH6>Doc Name {elem}</StyledH6>
+                <StyledP style={{ color: 'gray' }}>Specialization</StyledP>
+              </StyledDoctorData>
+              <StyledDoctorData>
+                <StyledH6>Appointment Summary</StyledH6>
+                <StyledP>Time</StyledP>
+                <StyledP>Date</StyledP>
+                <StyledP>Name</StyledP>
+              </StyledDoctorData>
+              <StyledDoctorData>
+                <CustomButton
+                  fullWidth
+                  color="success"
+                  onClick={() => {}}
                   >
-                    Material Icons
-                  </a>
-                </h5>
-              </GridItem>
-            </Hidden>
+                    <span>Join Meeting</span>
+                    {' '}<span style={{ float: 'right' }}><VideoCallIcon style={{ marginLeft: 8, verticalAlign: 'middle' }} /></span>
+                </CustomButton>
+                <CustomButton
+                  fullWidth
+                  color="danger"
+                  onClick={() => {}}
+                  >
+                    Cancel Appointment
+                    {' '}<CloseIcon style={{ marginLeft: 8, verticalAlign: 'middle' }}/>
+                </CustomButton>
+              </StyledDoctorData>
+            </StyledDoctorDataContainer>
+            ))}
           </CardBody>
         </Card>
       </GridItem>
     </GridContainer>
   );
 }
+
+const StyledDoctorDataContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 8px;
+  border-bottom: 1px solid #ccc;
+  padding: 16px;
+`;
+
+const StyledDoctorData = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 10px;
+`;
+
+const StyledH6 = styled.h6`
+  margin: 0 !important;
+`;
+
+const StyledP = styled.p`
+  margin: 0 !important;
+`;

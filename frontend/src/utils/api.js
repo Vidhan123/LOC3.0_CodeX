@@ -31,8 +31,7 @@ const api = {
               },
             },
         );
-        console.log(data);
-        return (data);
+        return (data.data.data.authUser);
     },
     registerUser: async (name, phoneNo, email, password, isAdmin, role, sex, age, specialization) => {
         const data = await axios.post(
@@ -71,6 +70,36 @@ const api = {
               },
         );
         return data; 
+    },
+    getDoctor: async () => {
+      const data = await axios.post(
+        url,
+        {
+            query: `
+            query{
+              getDoctors{
+                _id
+                name
+                phoneNo
+                email
+                password
+                role
+                age
+                sex
+                specialization
+                token
+              }
+            }
+            `,
+        },
+        {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+    );
+    console.log(data.data.data.getDoctors);
+    return data.data.data.getDoctors;
     },
 };
 
