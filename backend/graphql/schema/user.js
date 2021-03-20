@@ -23,6 +23,7 @@ const UserSchema = `
         token: String
         about: String
         location: Location
+        image: String
     }
 
 
