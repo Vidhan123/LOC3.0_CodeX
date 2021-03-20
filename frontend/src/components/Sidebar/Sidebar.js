@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
@@ -15,15 +15,41 @@ import Icon from "@material-ui/core/Icon";
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
 import userAvatar from "../../assets/img/faces/marc.jpg";
-
+import usePayment from '../Payment/usePayment';
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 import { GlobalContext } from '../../GlobalContext';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles(styles);
 
 export default function Sidebar(props) {
+  const [paymentHandler, setMyColor] = usePayment();
   const { user } = useContext(GlobalContext);
   const [ userData, setUserData ] = user;
+
+  const handleGift = (e) => {
+    e.preventDefault();
+    Swal.mixin({
+      input: 'number',
+      confirmButtonText: 'Pay &rarr;',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      // progressSteps: ['1']
+    })
+      .queue([
+        {
+          title: 'Show your love',
+          text: 'Enter the amount',
+        },
+      ])
+      .then(async (result) => {
+        if (result.value) {
+          const answers = result.value;
+          console.log(answers[0]);
+          paymentHandler(answers[0]);
+        }
+      });
+  };
 
   const classes = useStyles();
   // verifies if routeName is the one active (in browser input)
@@ -61,7 +87,11 @@ export default function Sidebar(props) {
             activeClassName="active"
             key={key}
           >
-            <ListItem button className={classes.itemLink + listItemClasses}>
+            <ListItem button className={classes.itemLink + listItemClasses}
+            onClick={(e) => {
+              show? handleGift(e) : console.log('hide')
+            }}
+            >
               {typeof prop.icon === "string" ? (
                 <Icon
                   className={classNames(classes.itemIcon, whiteFontClasses, {
