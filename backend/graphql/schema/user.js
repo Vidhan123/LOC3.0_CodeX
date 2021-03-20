@@ -27,6 +27,7 @@ const UserSchema = `
 
 
     input UserInput {
+        _id: ID
         name: String
         phoneNo: String
         email: String!

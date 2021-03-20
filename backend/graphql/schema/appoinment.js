@@ -10,6 +10,7 @@ const AppointmentSchema = `
     }
 
     input AppointmentInput {
+        patientId: ID!
         doctorId: ID!
         description: String!
         date: String!

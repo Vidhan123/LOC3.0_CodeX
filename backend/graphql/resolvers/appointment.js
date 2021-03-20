@@ -6,9 +6,9 @@ const Appointment = require("../../models/appointment.js");
 const createAppointment = async (args, {req}) => {
     try {
         // if(loggedin(req)) {
-            const patient = await User.findById(req.user_id);
+            const patient = await User.findById(args.appointmentInput.patientId);
             const appointment = await Appointment.create({
-                patientId: req.user_id,
+                patientId: args.appointmentInput.patientId,
                 doctorId: args.appointmentInput.doctorId,
                 description: args.appointmentInput.description,
                 date: args.appointmentInput.date,
@@ -32,7 +32,7 @@ const viewAppointment = async (args, {req}) => {
     try {
         // if(loggedin(req)) {
             let d = new Date();
-            const user = await User.findById(req.user_id);
+            const user = await User.findById(args.user_id);
             if(user.role=="patient") {
                 const appointment = await Appointment.find({patientId: user_id});
                 if (appointment) {
