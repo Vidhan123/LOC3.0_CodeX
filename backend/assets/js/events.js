@@ -53,22 +53,21 @@ window.addEventListener( 'load', () => {
     document.getElementById( 'create-room' ).addEventListener( 'click', ( e ) => {
         e.preventDefault();
 
-        let roomName = document.querySelector( '#room-name' ).value;
-        let yourName = document.querySelector( '#your-name' ).value;
+        let roomName = 'Appointment_Session'
+        let yourName = 'Doctor'
 
         if ( roomName && yourName ) {
             //remove error message, if any
-            document.querySelector( '#err-msg' ).innerHTML = "";
+            // document.querySelector( '#err-msg' ).innerHTML = "";
 
             //save the user's name in sessionStorage
             sessionStorage.setItem( 'username', yourName );
 
             //create room link
-            let roomLink = `${ location.origin }?room=${ roomName.trim().replace( ' ', '_' ) }_${ helpers.generateRandomString() }`;
+            let roomLink = `${ location.origin }?room=${ roomName.trim().replace( ' ', '_' ) }_1234`;
 
             //show message with link to room
-            document.querySelector( '#room-created' ).innerHTML = `Room successfully created. Click <a href='${ roomLink }'>here</a> to enter room. 
-                Share the room link with your partners.`;
+            document.querySelector( '#room-created' ).innerHTML = `Room successfully created. Click <a href='${ roomLink }'>here</a> to enter room.`;
 
             //empty the values
             document.querySelector( '#room-name' ).value = '';
@@ -85,7 +84,7 @@ window.addEventListener( 'load', () => {
     document.getElementById( 'enter-room' ).addEventListener( 'click', ( e ) => {
         e.preventDefault();
 
-        let name = document.querySelector( '#username' ).value;
+        let name = 'Patient'
 
         if ( name ) {
             //remove error message, if any

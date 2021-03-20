@@ -1,3 +1,7 @@
+/**
+ * @author Amir Sanni <amirsanni@gmail.com>
+ * @date 6th January, 2020
+ */
 import h from './helpers.js';
 
 window.addEventListener( 'load', () => {
@@ -338,7 +342,7 @@ window.addEventListener( 'load', () => {
 
                 setTimeout( () => {
                     recordedStream = [];
-                }, 5000);
+                }, 3000 );
             };
 
             mediaRecorder.onerror = function ( e ) {
