@@ -39,8 +39,10 @@ export default function Sidebar(props) {
         }
         var activePro = " ";
         var listItemClasses;
+        var show = false;
         if (prop.path === "/upgrade-to-pro") {
           activePro = classes.activePro + " ";
+          show = true;
           listItemClasses = classNames({
             [" " + classes[color]]: true
           });
