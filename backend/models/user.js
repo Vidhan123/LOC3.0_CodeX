@@ -6,9 +6,11 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
+      default: "username",
     },
     phoneNo: {
       type: String,
+      default: "phone"
     },
     email: {
       type: String,
@@ -28,12 +30,14 @@ const userSchema = mongoose.Schema(
     },
     sex: {
       type: String,
+      default: "",
     },
     specialization: {
       type: String
     },
     about: {
-      type: String
+      type: String,
+      default: "",
     },
     location: {
       latitude : {
