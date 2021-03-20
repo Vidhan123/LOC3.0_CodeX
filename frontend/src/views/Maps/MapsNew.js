@@ -100,12 +100,23 @@ function MapsNew() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      onChange: async (e) => {
+                        setAllDoctors(await api.searchDoctorByName(e.target.value));
+                      }
+                    }}
                   />
                   <CustomInput
                     labelText="Search by Specialization"
                     id="name"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                      onChange: async (e) => {
+                        setAllDoctors(await api.searchDoctorBySpecialization(e.target.value));
+                        console.log(1);
+                      }
                     }}
                   />
                   <StyledButton

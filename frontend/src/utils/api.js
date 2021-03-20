@@ -166,7 +166,76 @@ const api = {
             },
           },
     );
+    console.log(data);
     return data.data.data.createAppointment;
+    },
+    searchDoctorByName: async (searchTerm) => {
+      const data = await axios.post(
+        url,
+        {
+            query: `
+            query{
+              searchDoctorByName(searchTerm: "${searchTerm}"){
+                _id
+                name
+                phoneNo
+                email
+                password
+                role
+                age
+                sex
+                specialization
+                token
+                about
+                location {
+                  latitude
+                  longitude
+                }
+              }
+            }
+            `,
+        },
+        {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        return data.data.data.searchDoctorByName;
+    },
+    searchDoctorBySpecialization: async (searchTerm) => {
+      const data = await axios.post(
+        url,
+        {
+            query: `
+            query{
+              searchDoctorBySpecialization(searchTerm: "${searchTerm}"){
+                _id
+                name
+                phoneNo
+                email
+                password
+                role
+                age
+                sex
+                specialization
+                token
+                about
+                location {
+                  latitude
+                  longitude
+                }
+              }
+            }
+            `,
+        },
+        {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        return data.data.data.searchDoctorBySpecialization;
     },
 };
 

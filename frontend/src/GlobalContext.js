@@ -24,7 +24,26 @@ export const GlobalProvider = (props) => {
 
   const [allDoctors, setAllDoctors] = useState([]);
 
+  const getLS = async () => {
+    const data = await window.localStorage.getItem('LOC_user');
+    const jsonData = await JSON.parse(data);
+    console.log(jsonData);
+
+    if(jsonData){
+      setUserData(jsonData);
+    }
+  };
+
+  const setLS = async () => {
+    await window.localStorage.setItem('LOC_user', JSON.stringify(userData));
+  };
+
   useEffect(() => {
+    getLS();
+  }, []);
+
+  useEffect(() => {
+    setLS();
     console.log(userData);
   }, [userData]);
 

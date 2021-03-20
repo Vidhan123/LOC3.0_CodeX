@@ -196,7 +196,7 @@ export default function TypographyPage() {
   const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if(activeStep === steps.length - 1){
-      await api.createAppointment(bookAppointment.doctorId, bookAppointment.dateTime, bookAppointment.description);
+      const data = await api.createAppointment(bookAppointment.doctorId, bookAppointment.dateTime, bookAppointment.description);
     }
   };
 
