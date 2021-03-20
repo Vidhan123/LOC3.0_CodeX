@@ -28,7 +28,7 @@ const UserSchema = `
 
     input UserInput {
         _id: ID
-        name: String
+        name: String!
         phoneNo: String
         email: String!
         password: String!
@@ -41,6 +41,7 @@ const UserSchema = `
     }
     
     input UpdateUserInput {
+        _id: ID!
         name: String
         phoneNo: String
         email: String
