@@ -14,7 +14,8 @@ const buildschema =  buildSchema(`
         getUsers: [User!]!
         getUserById(userId: ID!): User!
         getDoctors: [User!]!
-        searchDoctor(searchTerm: String!): [User!]
+        searchDoctorByName(searchTerm: String!): [User!]
+        searchDoctorBySpecialization(searchTerm: String!): [User!]
         searchParticularDoctor(userId: ID!): User!
 
         viewAppointment: [Appointment!]!
