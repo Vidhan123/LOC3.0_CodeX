@@ -2,6 +2,14 @@ const User = require('../../models/user.js');
 const {loggedin, admin} = require('../../utils/verifyUser');
 const generateToken = require('../../utils/generateToken.js');
 const Appointment = require("../../models/appointment.js");
+const Nexmo = require('nexmo');
+
+const nexmo = new Nexmo({
+  apiKey: '92cb3f41',
+  apiSecret: 'Wp2ilpO0Kecqi1sD',
+});
+
+
 
 const createAppointment = async (args, {req}) => {
     try {
@@ -15,6 +23,19 @@ const createAppointment = async (args, {req}) => {
                 status: 'Pending',
             });
             if(appointment) {
+                const from = 'CodeX Clinic';
+                const to = '917021834798';
+                const text = 'Your appointment has been booked';
+                nexmo.message.sendSms(from, to, text, 
+                    function(error, result) {    
+                    if(error) { 
+                        console.log("ERROR", error) 
+                    } 
+                
+                    else { 
+                        console.log("RESULT", result) 
+                    } 
+                }); 
                 return {
                     ...appointment._doc
                 };
