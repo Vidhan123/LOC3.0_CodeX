@@ -80,7 +80,7 @@ const getUserProfile = async (args, { req, redis }) => {
 const updateUserProfile = async (args, { req, redis }) => {
   try {
     // if (loggedin(req)) {
-      const user = await User.findById(req.user._id);
+      const user = await User.findById("60561b9921042c101c1b26fa");
 
       if (user) {
         user.name = args.userInput.name || user.name;
@@ -125,11 +125,21 @@ const getUsers = async (args, { req, redis }) => {
   }
 };
 
-const getDoctors = async (args, {req}) => {
+const getDoctors = async (args, {req, redis}) => {
   try {
-    const doctors = await User.find({role: "doctor"});
-    // console.log(doctors);
-    return doctors;
+    const doct = await redis.get('doctors:all');
+    if(doct) {
+      return JSON.parse(doct);    
+    } else {
+      const doctors = await User.find({role: "doctor"});
+      if(doctors) {
+        redis.setex('doctors:all', process.env.SLOW_CACHE, JSON.stringify(doctors));
+        return doctors
+      } else {
+        res.status(404);
+        console.log("No doctors");
+      }
+    };
   } catch (err) {
     console.log(err);
     throw err;
