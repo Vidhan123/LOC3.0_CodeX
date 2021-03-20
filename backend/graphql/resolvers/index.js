@@ -8,8 +8,16 @@ const  {
     deleteUser,
     getUserById,
     updateUser,
-    searchDoctor
+    searchDoctor,
+    searchParticularDoctor,
   } = require('./user.js');
+
+const {
+  createAppointment,
+  viewAppointment,
+  cancelAppointment,
+  changeStatus,
+} = require('./appointment.js')
 
   module.exports = {
     //users
@@ -22,5 +30,11 @@ const  {
     deleteUser: deleteUser,
     getUserById: getUserById,
     updateUser: updateUser,
-    searchDoctor: searchDoctor
+    searchDoctor: searchDoctor,
+    searchParticularDoctor: searchParticularDoctor,
+    //appointment
+    createAppointment: createAppointment,
+    viewAppointment: viewAppointment,
+    cancelAppointment: cancelAppointment,
+    changeStatus: changeStatus,
   };

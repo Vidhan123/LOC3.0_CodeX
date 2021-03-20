@@ -20,10 +20,12 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
+  const history = useHistory();
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
@@ -46,6 +48,7 @@ export default function AdminNavbarLinks() {
   };
   const handleCloseProfile = () => {
     setOpenProfile(null);
+    history.push(`/login`); 
   };
   return (
     <div>

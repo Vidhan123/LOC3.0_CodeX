@@ -126,7 +126,7 @@ const getUsers = async (args, { req, redis }) => {
 const getDoctors = async (args, {req}) => {
   try {
     const doctors = await User.find({role: "doctor"});
-    console.log(doctors);
+    // console.log(doctors);
     return doctors;
   } catch (err) {
     console.log(err);
@@ -204,14 +204,36 @@ const updateUser = async (args, { req, redis }) => {
 
 const searchDoctor = async (args, {req}) => {
   try {
-    let doctors = await User.fuzzySearch({query: args.searchTerm});
-    let x = [];
-    doctors.forEach(element => {
-      if(element.role=="doctor") {
-        x.push(element);
+    if(loggedin(req)) {
+      let doctors = await User.fuzzySearch({query: args.searchTerm});
+      let x = [];
+      doctors.forEach(element => {
+        if(element.role=="doctor") {
+          x.push(element);
+        }
+      });
+      return x;
+    } else {
+      throw new Error('User not found');
+    }  
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+const searchParticularDoctor = async (args, {req}) => {
+  try {
+    if(loggedin(req)) {
+      let doctor = await User.findById(args.userId);
+      if(doctor.role == 'doctor') {
+        return doctor;
+      } else {
+        throw new Error('Doctor not found!!');
       }
-    });
-    return x;
+    } else {
+      throw new Error('User not found');
+    }
   } catch (err) {
     console.log(err);
     throw err;
@@ -228,5 +250,6 @@ module.exports =  {
   deleteUser,
   getUserById,
   updateUser,
-  searchDoctor
+  searchDoctor,
+  searchParticularDoctor
 };
