@@ -130,9 +130,9 @@ export default function Sidebar(props) {
         target="_blank"
       >
         <div className={classes.logoImage}>
-          <img src={userAvatar} alt="logo" className={classes.img} />
+          <img src={userAvatar} alt="logo" className={classes.img} style={{ borderRadius: '50%' }}/>
+          <span style={{ width: "35px", top: "24px", left: "85px", position: "absolute", verticalAlign: "middle", border: "0" }}>{userData.name.split(" ")[0]}</span>
         </div>
-        {userData.name}
       </div>
     </div>
   );

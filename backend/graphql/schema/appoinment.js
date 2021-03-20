@@ -1,5 +1,14 @@
 const AppointmentSchema = `
 
+    type viewAppointment {
+        _id: ID!
+        patientId: ID!
+        doctorId: User!
+        description: String!
+        date: String!
+        status: String!
+    }
+
     type Appointment {
         _id: ID!
         patientId: ID!

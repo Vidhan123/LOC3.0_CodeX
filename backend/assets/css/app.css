@@ -1,3 +1,12 @@
+*.bg > svg {
+  width: 100%;
+  z-index: -10;
+  position: fixed;
+  top: 0;
+  left: 50;
+  background-color: rgb(244, 200, 42) !important;
+}
+
 .chat-col {
   right: -100vw;
   bottom: 0;
@@ -10,6 +19,7 @@
   padding-bottom: 40px;
   padding-top: 15px;
   min-height: 100vh;
+  background-color: #fffde7 !important;
 }
 
 .chat-col.chat-opened {
@@ -33,6 +43,11 @@
 #chat-messages::-webkit-scrollbar {
   width: 0px; /* remove scrollbar space */
   background: transparent;
+}
+
+#chat-input {
+  background-color: #fff9c4;
+  border: none;
 }
 
 .chat-box {
@@ -67,9 +82,13 @@
 }
 
 .remote-video {
-  width: 100%;
+  width: 90%;
   height: auto;
   max-height: 90vh;
+}
+
+#videos > div {
+  border: none;
 }
 
 .remote-video-controls {

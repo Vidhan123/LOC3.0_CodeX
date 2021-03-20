@@ -129,7 +129,7 @@ const api = {
                   longitude
                 }
               }
-            }            
+            }
             `,
         },
         {
@@ -139,6 +139,116 @@ const api = {
           },
     );
     return data.data.data.searchParticularDoctor;
+    },
+    createAppointment: async (docId, date, description, pId) => {
+      const data = await axios.post(
+        url,
+        {
+            query: `
+            mutation{
+              createAppointment(appointmentInput: {
+                doctorId: "${docId}",
+                date: "${date}",
+                description: "${description}",
+                patientId: "${pId}",
+              }){
+                doctorId
+                patientId
+                _id
+                date
+                status
+              }
+            }
+            `,
+        },
+        {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+    );
+    console.log(data);
+    return data.data.data.createAppointment;
+    },
+    uploadDoc: async (id, files) => {
+      console.log(files);
+      const postData = new FormData();
+      postData.append('id', id);
+      postData.append('file', files);
+      const data = await axios.post(
+        'http://localhost:5000/uploadDoc',
+        postData,
+    );
+    console.log(data);
+    return data;
+    },
+    searchDoctorByName: async (searchTerm) => {
+      const data = await axios.post(
+        url,
+        {
+            query: `
+            query{
+              searchDoctorByName(searchTerm: "${searchTerm}"){
+                _id
+                name
+                phoneNo
+                email
+                password
+                role
+                age
+                sex
+                specialization
+                token
+                about
+                location {
+                  latitude
+                  longitude
+                }
+              }
+            }
+            `,
+        },
+        {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        return data.data.data.searchDoctorByName;
+    },
+    searchDoctorBySpecialization: async (searchTerm) => {
+      const data = await axios.post(
+        url,
+        {
+            query: `
+            query{
+              searchDoctorBySpecialization(searchTerm: "${searchTerm}"){
+                _id
+                name
+                phoneNo
+                email
+                password
+                role
+                age
+                sex
+                specialization
+                token
+                about
+                location {
+                  latitude
+                  longitude
+                }
+              }
+            }
+            `,
+        },
+        {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        return data.data.data.searchDoctorBySpecialization;
     },
     updateUserProfile: async (ID ,name, phoneNo, email, password, sex, age, about, lat, lng) => {
       const data = await axios.post(

@@ -54,7 +54,6 @@ export default function Icons() {
                 <StyledH6>Appointment Summary</StyledH6>
                 <StyledP>Time</StyledP>
                 <StyledP>Date</StyledP>
-                <StyledP>Name</StyledP>
               </StyledDoctorData>
               <StyledDoctorData>
                 <CustomButton

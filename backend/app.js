@@ -96,6 +96,7 @@ const Appointment = require('./models/appointment.js')
       const resp = await appointment.save();
       if(resp) {
         res.send('Successfully uploaded pdf');
+        console.log('success');
         } else {
           res.send("Some err has occured!!");
         }
