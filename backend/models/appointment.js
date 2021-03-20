@@ -21,7 +21,7 @@ const appointmentSchema = mongoose.Schema({
         required: true,
         default: "Pending",
     },
-    reoprt: {
+    report: {
         type: String,
         default: "",
     },
