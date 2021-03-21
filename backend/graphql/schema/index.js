@@ -21,6 +21,7 @@ const buildschema =  buildSchema(`
         viewAppointment(user_id: ID!): [viewAppointment!]!
         cancelAppointment(appointment_id: ID!): Response!
         changeStatus(appointment_id: ID!): Response!
+        getAllAppointments(user_id: ID!) : [viewAppointment!]!
     }
 
     type rootMutation {

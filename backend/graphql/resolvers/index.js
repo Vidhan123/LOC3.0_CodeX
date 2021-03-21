@@ -18,6 +18,7 @@ const {
   viewAppointment,
   cancelAppointment,
   changeStatus,
+  getAllAppointments,
 } = require('./appointment.js')
 
   module.exports = {
@@ -39,4 +40,5 @@ const {
     viewAppointment: viewAppointment,
     cancelAppointment: cancelAppointment,
     changeStatus: changeStatus,
+    getAllAppointments: getAllAppointments
   };
