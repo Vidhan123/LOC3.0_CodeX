@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -13,9 +13,11 @@ import {
 import { useNavigation } from "@react-navigation/core";
 import { Card } from "react-native-paper";
 import { PRIMARY, YELLOW } from "../util/colors";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import theme from "../Components/theme";
 import { Button, NavBar } from "galio-framework";
+import api from "../util/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const BASE_SIZE = theme.SIZES.BASE;
 const GRADIENT_BLUE = ["#6B84CA", "#8F44CE"];
 const GRADIENT_PINK = ["#D442F8", "#B645F5", "#9B40F8"];
@@ -24,14 +26,33 @@ const COLOR_GREY = theme.COLORS.MUTED;
 
 const ProfileData = () => {
   const navigation = useNavigation();
+  const [data, setData] = useState([]);
+  const [name, setName] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [email, setEmail] = useState("");
+  const [age, setAge] = useState(0);
+  const [sex, setSex] = useState("");
+  const [password, setPassword] = useState("");
+  const [about, setAbout] = useState("");
+  let id;
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem("id");
+        id = value;
+        setData(await api.getUserById(value));
+      } catch (error) {
+        alert(error);
+      }
+    };
+    getData();
+  }, []);
   return (
     <View>
       <View style={{ marginTop: 40 }}>
         <NavBar
           title="User Profile"
           titleStyle={{ fontSize: 20 }}
-          //   onLeftPress={() => this.props.navigation.openDrawer()}
-          //   leftIconColor={theme.COLORS.MUTED}
           left={
             <Button
               color="transparent"
@@ -55,7 +76,7 @@ const ProfileData = () => {
             shadowOffset: { width: 10, height: 10 },
             elevation: 5,
             position: "absolute",
-            marginTop: 80,
+            marginTop: 50,
             width: 350,
           }}
         >
@@ -85,8 +106,10 @@ const ProfileData = () => {
                 borderBottomWidth: 0.3,
                 padding: 5,
                 fontSize: 20,
-                marginVertical: 30,
+                marginVertical: 20,
               }}
+              value={data.name}
+              onChangeText={(text) => setName(text)}
             />
             <TextInput
               placeholder="Phone Number"
@@ -94,8 +117,10 @@ const ProfileData = () => {
                 borderBottomWidth: 0.3,
                 padding: 5,
                 fontSize: 20,
-                marginVertical: 30,
+                marginVertical: 20,
               }}
+              value={data.phoneNo}
+              onChangeText={(text) => setPhoneNo(text)}
             />
             <TextInput
               placeholder="Email Address"
@@ -103,8 +128,10 @@ const ProfileData = () => {
                 borderBottomWidth: 0.3,
                 padding: 5,
                 fontSize: 20,
-                marginVertical: 30,
+                marginVertical: 20,
               }}
+              value={data.email}
+              onChangeText={(text) => setEmail(text)}
             />
             <TextInput
               placeholder="Age"
@@ -112,8 +139,10 @@ const ProfileData = () => {
                 borderBottomWidth: 0.3,
                 padding: 5,
                 fontSize: 20,
-                marginVertical: 30,
+                marginVertical: 20,
               }}
+              value={data.age}
+              onChangeText={(text) => setAge(text)}
             />
             <TextInput
               placeholder="Sex"
@@ -121,8 +150,10 @@ const ProfileData = () => {
                 borderBottomWidth: 0.3,
                 padding: 5,
                 fontSize: 20,
-                marginVertical: 30,
+                marginVertical: 20,
               }}
+              value={data.sex}
+              onChangeText={(text) => setSex(text)}
             />
             <TextInput
               placeholder="Password"
@@ -131,12 +162,40 @@ const ProfileData = () => {
                 borderBottomWidth: 0.3,
                 padding: 5,
                 fontSize: 20,
-                marginVertical: 30,
+                marginVertical: 20,
               }}
+              value={data.password}
+              onChangeText={(text) => setPassword(text)}
             />
-            <Button color={PRIMARY} uppercase>
-              Update Profile
-            </Button>
+            <TextInput
+              placeholder="About"
+              style={{
+                borderBottomWidth: 0.3,
+                padding: 5,
+                fontSize: 20,
+                marginVertical: 20,
+              }}
+              value={data.about}
+              onChangeText={(text) => setAbout(text)}
+            />
+            <TouchableOpacity
+              onPress={async () => {
+                // await api.updateUserProfile(
+                //   id,
+                //   name,
+                //   phoneNo,
+                //   email,
+                //   password,
+                //   sex,
+                //   age,
+                //   about
+                // );
+              }}
+            >
+              <Button color={PRIMARY} uppercase>
+                Update Profile
+              </Button>
+            </TouchableOpacity>
           </View>
         </Card>
       </SafeAreaView>

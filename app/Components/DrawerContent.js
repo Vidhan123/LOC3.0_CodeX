@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, ImageBackground, StyleSheet, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -17,6 +18,23 @@ import { PRIMARY } from "../util/colors";
 const DrawerContent = (props) => {
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
+  const [data, setData] = useState("");
+
+  const name = data.toUpperCase();
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("nameKey");
+
+      if (value != null) {
+        setData(value);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
@@ -36,14 +54,11 @@ const DrawerContent = (props) => {
                 }}
               >
                 <Avatar.Image
-                  source={{
-                    uri:
-                      "https://api.adorable.io/avatars/50/abott@adorable.png",
-                  }}
+                  source={require("../assets/doctor.jpeg")}
                   size={40}
                 />
                 <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                  <Title style={styles.title}>Tanay Naik</Title>
+                  <Title style={styles.title}>{name}</Title>
                 </View>
               </View>
             </View>

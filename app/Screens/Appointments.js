@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, ScrollView, FlatList } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -7,21 +7,53 @@ import { Card } from "react-native-paper";
 import theme from "../Components/theme";
 import { Button, NavBar } from "galio-framework";
 const BASE_SIZE = theme.SIZES.BASE;
-const GRADIENT_BLUE = ["#6B84CA", "#8F44CE"];
-const GRADIENT_PINK = ["#D442F8", "#B645F5", "#9B40F8"];
-const COLOR_WHITE = theme.COLORS.WHITE;
-const COLOR_GREY = theme.COLORS.MUTED; // '#D8DDE1';
+import api from "../util/api";
 
 const Appointments = () => {
   const navigation = useNavigation();
   const NUM_OF_LINES = 3;
-  const data = [
-    { ID: "1", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
-    { ID: "2", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
-    { ID: "3", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
-    { ID: "4", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
-  ];
-  const [showMore, setShowMore] = useState(false);
+  // const data = [
+  //   { ID: "1", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
+  //   { ID: "2", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
+  //   { ID: "3", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
+  //   { ID: "4", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
+  // ];
+  const [uApp, setUpp] = useState([]);
+
+  const [pApp, setPpp] = useState([]);
+  console.log(uApp);
+  useEffect(() => {
+    const mf = async () => {
+      const data = await api.getAllAppointments("6056c3a829eca020d81bbb53");
+      console.log(data);
+      let j = 1,
+        k = 1;
+      let upp = [],
+        ppp = [];
+      for (let i = 0; i < data.length; i++) {
+        if (i < 2 || i > 3) {
+          upp.push([
+            `${j}`,
+            data[i].doctorId.name,
+            Date(data[i].date),
+            "Pending",
+          ]);
+          j++;
+        } else {
+          ppp.push([
+            `${k}`,
+            data[i].doctorId.name,
+            Date(data[i].date),
+            data[i].status,
+          ]);
+          k++;
+        }
+      }
+      setUpp(upp);
+      setPpp(ppp);
+    };
+    mf();
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -104,45 +136,46 @@ const Appointments = () => {
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Date/Time</Text>
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Status</Text>
           </View>
-          <FlatList
-            data={data}
+          {/* <FlatList
+            data={uApp}
             renderItem={(itemData) => {
-              return (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    borderBottomWidth: 0.5,
-                    paddingHorizontal: 5,
-                    paddingVertical: 30,
-                    marginHorizontal: 10,
-                    borderBottomColor: "grey",
-                  }}
-                >
-                  <Text style={{ fontSize: 15, textAlign: "left" }}>
-                    {itemData.item.ID}
-                  </Text>
-
-                  <Text style={{ fontSize: 15 }}>{itemData.item.Name}</Text>
-
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      textAlign: "center",
-                      paddingLeft: 50,
-                    }}
-                  >
-                    {itemData.item.Date}
-                  </Text>
-
-                  <Text style={{ textAlign: "center", fontSize: 15 }}>
-                    {itemData.item.Status}
-                  </Text>
-                </View>
-              );
+              return ( */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderBottomWidth: 0.5,
+              paddingHorizontal: 5,
+              paddingVertical: 30,
+              marginHorizontal: 10,
+              borderBottomColor: "grey",
             }}
-          />
+          >
+            {uApp.map((elem) => {
+              <View>
+                <Text style={{ fontSize: 15, textAlign: "left" }}>
+                  {elem[0]}
+                </Text>
+
+                <Text style={{ fontSize: 15 }}>{elem[1]}</Text>
+
+                <Text
+                  style={{
+                    fontSize: 15,
+                    textAlign: "center",
+                    paddingLeft: 50,
+                    marginHorizontal: 50,
+                  }}
+                ></Text>
+
+                <Text style={{ textAlign: "center", fontSize: 15 }}></Text>
+              </View>;
+            })}
+          </View>
+          {/* );
+            }}
+          /> */}
         </Card>
 
         <Card
@@ -196,7 +229,7 @@ const Appointments = () => {
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Status</Text>
           </View>
           <FlatList
-            data={data}
+            data={pApp}
             renderItem={(itemData) => {
               return (
                 <View

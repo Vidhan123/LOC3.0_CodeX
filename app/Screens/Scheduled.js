@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Linking } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button as ButtonRP } from "react-native-paper";
 import { Button, NavBar } from "galio-framework";
@@ -219,6 +219,11 @@ const Scheduled = () => {
                         }}
                         labelStyle={{ fontSize: 17 }}
                         mode="contained"
+                        onPress={() => {
+                          Linking.openURL(
+                            "http://localhost:5000/?room=Appointment_Session_1234"
+                          );
+                        }}
                       >
                         join meeting
                       </ButtonRP>

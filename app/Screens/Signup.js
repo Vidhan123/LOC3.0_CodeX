@@ -15,30 +15,15 @@ import axios from "axios";
 import WavyHeader from "../Components/WavyHeader";
 import { useNavigation } from "@react-navigation/native";
 import { PRIMARY } from "../util/colors";
+import api from "../util/api";
 
 const Signup = () => {
   const navigation = useNavigation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobNo, setMobNo] = useState("");
+  const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
-  const setData = async () => {
-    const { data } = await axios.post("http://localhost:5000/graphql", {
-      query: `
-          mutation{
-            registerUser(userInput: {
-              name: "${name}",
-              password: "${password}",
-              phoneNo: "${mobNo}",
-              email: "${email}",
-              isAdmin: true
-            }) {
-              name
-            }
-          }
-          `,
-    });
-  };
+  const rolelc = role.toLowerCase();
   return (
     <View style={styles.container}>
       <WavyHeader customStyles={styles.svgCurve} />
@@ -76,10 +61,12 @@ const Signup = () => {
           }}
           keyboardType="email-address"
         />
+
         <TextInput
-          placeholder="Mobile Number"
-          value={mobNo}
-          onChangeText={(text) => setMobNo(text)}
+          placeholder="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry
           style={{
             borderBottomWidth: 0.5,
             paddingVertical: 3,
@@ -89,10 +76,9 @@ const Signup = () => {
           }}
         />
         <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
+          placeholder="Role"
+          value={role}
+          onChangeText={(text) => setRole(text)}
           style={{
             borderBottomWidth: 0.5,
             paddingVertical: 3,
@@ -117,7 +103,7 @@ const Signup = () => {
           }}
         >
           <TouchableOpacity
-            onPress={() => {
+            onPress={async () => {
               if (name == "" || email == "" || mobNo == "" || password == "") {
                 Alert.alert("Error", "Please fill all the fields", [
                   {
@@ -125,9 +111,17 @@ const Signup = () => {
                   },
                 ]);
               } else {
-                setData().then(() => {
+                const data = await api.registerUser(
+                  name,
+
+                  email,
+                  password,
+
+                  rolelc
+                );
+                if (data.email) {
                   navigation.navigate("Login");
-                });
+                }
               }
             }}
           >
@@ -144,7 +138,7 @@ const Signup = () => {
                 color: PRIMARY,
                 fontSize: 15,
               }}
-              onPress={() => {
+              onPress={async () => {
                 navigation.navigate("Login");
               }}
             >

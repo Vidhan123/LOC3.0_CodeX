@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import WavyHeader from "../Components/WavyHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -19,7 +20,7 @@ const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const nameKey = "";
   return (
     <View style={styles.container}>
       <WavyHeader customStyles={styles.svgCurve} />
@@ -79,8 +80,15 @@ const Login = () => {
                 ]);
               } else {
                 const data = await api.authUser(email, password);
+                // console.log(data.image);
                 if (data.email) {
                   navigation.navigate("Dashboard");
+                  try {
+                    await AsyncStorage.setItem("nameKey", data.name);
+                    await AsyncStorage.setItem("id", data._id);
+                  } catch (error) {
+                    alert(error);
+                  }
                 }
               }
             }}

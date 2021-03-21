@@ -1,18 +1,30 @@
 import React from "react";
-import { StyleSheet, ScrollView, Platform, LogBox } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  Platform,
+  LogBox,
+  FlatList,
+  View,
+} from "react-native";
 import { LinearGradient as Gradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { Defs, LinearGradient, Stop } from "react-native-svg";
 import { AreaChart } from "react-native-svg-charts";
 import * as shape from "d3-shape";
+import { Card } from "react-native-paper";
+import { PRIMARY } from "../util/colors";
 
 // galio components
 import { Button, Block, Icon, Text, NavBar } from "galio-framework";
 import theme from "../Components/theme";
 
 const BASE_SIZE = theme.SIZES.BASE;
-const GRADIENT_BLUE = ["#6B84CA", "#8F44CE"];
+const GRADIENT_YELLOW = ["#FFD400", "#FFEA61"];
+const GRADIENT_GREEN = ["#57C84D", "#ABE098"];
+const GRADIENT_RED = ["#EA4C46", "#F6BDC0"];
 const GRADIENT_PINK = ["#D442F8", "#B645F5", "#9B40F8"];
+const GRADIENT_BLUE = ["#7AD7F0", "#B7E9F7"];
 const COLOR_WHITE = theme.COLORS.WHITE;
 const COLOR_GREY = theme.COLORS.MUTED; // '#D8DDE1';
 
@@ -20,33 +32,39 @@ const COLOR_GREY = theme.COLORS.MUTED; // '#D8DDE1';
 LogBox.ignoreLogs(["Possible Unhandled Promise Rejection"]);
 const cards = [
   {
-    title: "My Appointments",
-    subtitle: "8 completed appointments",
+    title: "Total Users",
+    subtitle: "39 (just updated)",
     icon: "list-bullet",
     iconFamily: "Galio",
   },
 
   {
-    title: "Total Appointments",
-    subtitle: "25 completed Appointments",
+    title: "Doctors Added",
+    subtitle: "7 (in last 12 hours)",
     icon: "bag-17",
     iconFamily: "Galio",
   },
   {
-    title: "Doctors",
-    subtitle: "12 registered",
+    title: "Total Appointments",
+    subtitle: "27 (tracked from CodeX)",
     icon: "credit-card",
     iconFamily: "Galio",
   },
 
-  // {
-  //   title: "Settings",
-  //   subtitle: "15 completed tasks",
-  //   icon: "settings-gear-65",
-  //   iconFamily: "Galio",
-  // },
+  {
+    title: "Registered Doctors",
+    subtitle: "18 (just updated)",
+    icon: "settings-gear-65",
+    iconFamily: "Galio",
+  },
 ];
-const statsTitles = ["Jul", "Aug", "Sep", "Oct", "Nov"];
+const data = [
+  { ID: "1", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
+  { ID: "2", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
+  { ID: "3", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
+  { ID: "4", Name: "Dr. Verma", Date: "Sat 20 Mar", Status: "Pending" },
+];
+const statsTitles = ["M", "T", "W", "Th", "F", "S", "Su"];
 
 class Home extends React.Component {
   renderHeader = () => (
@@ -78,12 +96,8 @@ class Home extends React.Component {
       </Defs>
     );
 
-    const statsActive = Array.from({ length: 20 }, () =>
-      parseFloat((Math.random() * 0.8 + 1).toFixed(3))
-    );
-    const statsInactive = Array.from({ length: 12 }, () =>
-      parseFloat((Math.random() * 0.7 + 1).toFixed(3))
-    );
+    const statsActive = [12, 17, 7, 17, 23, 18, 38];
+    const statsInactive = [10, 8, 13, 11, 26, 8, 30];
 
     return (
       <Block style={{ marginBottom: BASE_SIZE * 3 }}>
@@ -133,7 +147,16 @@ class Home extends React.Component {
   };
 
   renderCard = (props, index) => {
-    const gradientColors = index % 2 ? GRADIENT_BLUE : GRADIENT_PINK;
+    let gradientColors;
+    if (index == 0) {
+      gradientColors = GRADIENT_YELLOW;
+    } else if (index == 1) {
+      gradientColors = GRADIENT_GREEN;
+    } else if (index == 2) {
+      gradientColors = GRADIENT_RED;
+    } else {
+      gradientColors = GRADIENT_BLUE;
+    }
 
     return (
       <Block
