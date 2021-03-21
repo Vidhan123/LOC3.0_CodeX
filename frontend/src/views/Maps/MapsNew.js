@@ -64,6 +64,10 @@ function MapsNew() {
   const [mapInit, setMapInit] = useState(false);
 
   useEffect(() => {
+    console.log(pickUp);
+  }, [pickUp]);
+
+  useEffect(() => {
     const getDoctorData = async () => {
       setAllDoctors(await api.getDoctors());
     };
@@ -122,7 +126,13 @@ function MapsNew() {
                   <StyledButton
                   fullWidth
                   color="primary"
-                  onClick={() => {}}
+                  onClick={() => {
+                    console.log(pickUp);
+                    const docArr = allDoctors.filter(elem => elem.location.latitude === 72.8777);
+                    console.log(docArr);
+                    console.log(docArr);
+                    setAllDoctors(docArr);
+                  }}
                   >
                     Apply Location Filter
                   </StyledButton>

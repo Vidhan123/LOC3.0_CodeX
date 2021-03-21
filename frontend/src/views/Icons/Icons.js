@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
@@ -18,6 +18,7 @@ import CustomButton from '../../components/CustomButtons/Button';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import CloseIcon from '@material-ui/icons/Close';
 import api from '../../utils/api';
+import { GlobalContext } from '../../GlobalContext';
 
 const useStyles = makeStyles({
   ...styles,
@@ -34,6 +35,9 @@ export default function Icons() {
   const [uApp, setUpp] = useState([]);
 
   const [pApp, setPpp] = useState([]);
+
+  const { user } = useContext(GlobalContext);
+  const [ userData, setUserData ] = user;
 
   useEffect(() => {
     const mf = async() => {
@@ -99,7 +103,10 @@ export default function Icons() {
                 <CustomButton
                   fullWidth
                   color="danger"
-                  onClick={() => {}}
+                  onClick={async () => {
+                    const msg = await api.cancelAppointment(userData._id);
+                    console.log(msg);
+                  }}
                   >
                     Cancel Appointment
                     {' '}<CloseIcon style={{ marginLeft: 8, verticalAlign: 'middle' }}/>
