@@ -46,7 +46,7 @@ export default function UserProfile() {
 
   React.useEffect(() => {
     const mf = async() => {
-      const data = await api.getUserById("60565925280e9723d0548b2e");
+      const data = await api.getUserById("6056c3a829eca020d81bbb53");
       console.log(data);
       setUserD(data);
     }
