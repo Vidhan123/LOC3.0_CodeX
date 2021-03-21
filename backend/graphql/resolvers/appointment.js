@@ -51,13 +51,16 @@ const viewAppointment = async (args, {req}) => {
     try {
         // if(loggedin(req)) {
             let d = new Date();
+            let x = [];
             console.log(args);
             const user = await User.findById(args.user_id);
+            console.log(user);
             if(user.role=="patient") {
                 const appointment = await Appointment.find({patientId: user._id}).populate('doctorId');
                 console.log(appointment);
                 if (appointment) {
                     appointment.forEach(element => {
+                        let status = "";
                         let date = element.date;
                         let a = date.substring(0,4);
                         let b = date.substring(5,7);
@@ -67,13 +70,13 @@ const viewAppointment = async (args, {req}) => {
                         let x = y+z;
                         let time = d.getHours().toString() + d.getMinutes().toString();
                         if (element.status == 'Visited') {
-                            element.status = 'Visited';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Visited'}} );
                         } else if (element.status == 'Canceled') {
-                            element.status == 'Canceled';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Canceled'}} ); 
                         } else if (a==d.getFullYear()&&b==(d.getMonth()+1)&&c==d.getDate()&&(+x + +100)>time) {
-                            element.status = 'Pending';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Pending'}} ); 
                         } else {
-                            element.status = 'Not Visited';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status:'Not Visited'}} ); 
                         }     
                     });
                     return appointment;
@@ -93,14 +96,14 @@ const viewAppointment = async (args, {req}) => {
                         let x = y+z;
                         let time = d.getHours().toString() + d.getMinutes().toString();
                         if (element.status == 'Visited') {
-                            element.status = 'Visited';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Visited'}} );
                         } else if (element.status == 'Canceled') {
-                            element.status == 'Canceled';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Canceled'}} ); 
                         } else if (a==d.getFullYear()&&b==(d.getMonth()+1)&&c==d.getDate()&&(+x + +100)>time) {
-                            element.status = 'Pending';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Pending'}} ); 
                         } else {
-                            element.status = 'Not Visited';
-                        }    
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status:'Not Visited'}} ); 
+                        }   
                     });
                     return appointment;
                 } else {
