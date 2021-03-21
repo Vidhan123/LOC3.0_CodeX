@@ -52,12 +52,12 @@ const viewAppointment = async (args, {req}) => {
         // if(loggedin(req)) {
             let d = new Date();
             let x = [];
-            console.log(args);
+            // console.log(args);
             const user = await User.findById(args.user_id);
-            console.log(user);
+            // console.log(user);
             if(user.role=="patient") {
                 const appointment = await Appointment.find({patientId: user._id}).populate('doctorId');
-                console.log(appointment);
+                // console.log(appointment);
                 if (appointment) {
                     appointment.forEach(element => {
                         let status = "";
@@ -70,12 +70,16 @@ const viewAppointment = async (args, {req}) => {
                         let x = y+z;
                         let time = d.getHours().toString() + d.getMinutes().toString();
                         if (element.status == 'Visited') {
+                            console.log(1);
                             element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Visited'}} );
                         } else if (element.status == 'Canceled') {
+                            console.log(2);
                             element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Canceled'}} ); 
                         } else if (a==d.getFullYear()&&b==(d.getMonth()+1)&&c==d.getDate()&&(+x + +100)>time) {
+                            console.log(3);
                             element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Pending'}} ); 
                         } else {
+                            console.log(4);
                             element = Appointment.findByIdAndUpdate(element._id, {$set : {status:'Not Visited'}} ); 
                         }     
                     });
@@ -96,12 +100,16 @@ const viewAppointment = async (args, {req}) => {
                         let x = y+z;
                         let time = d.getHours().toString() + d.getMinutes().toString();
                         if (element.status == 'Visited') {
+                            console.log(1);
                             element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Visited'}} );
                         } else if (element.status == 'Canceled') {
+                            console.log(2);
                             element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Canceled'}} ); 
                         } else if (a==d.getFullYear()&&b==(d.getMonth()+1)&&c==d.getDate()&&(+x + +100)>time) {
+                            console.log(3);
                             element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Pending'}} ); 
                         } else {
+                            console.log(4);
                             element = Appointment.findByIdAndUpdate(element._id, {$set : {status:'Not Visited'}} ); 
                         }   
                     });
@@ -111,6 +119,27 @@ const viewAppointment = async (args, {req}) => {
                 }
             }
         // }
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+const getAllAppointments = async (args, {req}) => {
+    try {
+        const user = await User.findById(args.user_id);
+        console.log(user);
+        if(user.role=='patient') {
+            const appointment = Appointment.find({patientId: args.user_id}).populate('doctorId');;
+            if(appointment) {
+                return appointment;
+            }
+        } else {
+            const appointment = Appointment.find({doctorId: args.user_id});
+            if(appointment) {
+                return appointment;
+            }
+        }
     } catch (err) {
         console.log(err);
         throw err;
@@ -191,5 +220,6 @@ module.exports = {
     createAppointment,
     viewAppointment,
     cancelAppointment,
-    changeStatus
+    changeStatus,
+    getAllAppointments
 }
