@@ -381,6 +381,53 @@ const api = {
     );
     return (data.data.data.viewAppointment);
   },
+  cancelAppointment: async (ID) => {
+    const data = await axios.post(
+      url,
+      {
+        query: `
+        query{
+          cancelAppointment(appointment_id: "${ID}"){
+            msg
+          }
+        }
+      `,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+  );
+  return (data.data.data.cancelAppointment);
+  },
+  getAllAppointments: async (ID) => {
+    const data = await axios.post(
+        url,
+        {
+          query: `
+          query {
+            getAllAppointments(user_id: "${ID}") {
+              doctorId {
+                name
+                image
+                specialization
+              }
+              description
+              date
+              status
+            }
+          }
+        `,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+    );
+    return (data.data.data.getAllAppointments);
+  },
 };
 
 export default api;

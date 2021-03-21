@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
@@ -18,6 +18,7 @@ import CustomButton from '../../components/CustomButtons/Button';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import CloseIcon from '@material-ui/icons/Close';
 import api from '../../utils/api';
+import { GlobalContext } from '../../GlobalContext';
 
 const useStyles = makeStyles({
   ...styles,
@@ -35,14 +36,17 @@ export default function Icons() {
 
   const [pApp, setPpp] = useState([]);
 
+  const { user } = useContext(GlobalContext);
+  const [ userData, setUserData ] = user;
+
   useEffect(() => {
     const mf = async() => {
-      const data = await api.viewAppointment("60565925280e9723d0548b2e");
+      const data = await api.getAllAppointments("6056c3a829eca020d81bbb53");
       console.log(data);
       let j=1,k=1;
       let upp = [], ppp = [];
       for(let i=0;i<data.length;i++) {
-        if(data[i].status="Pending") {
+        if(i<2 || i>3) {
           upp.push({
             imgUrl: "../assets/doctor.jpeg",
             name: data[i].doctorId.name,
@@ -91,7 +95,7 @@ export default function Icons() {
                 <CustomButton
                   fullWidth
                   color="success"
-                  onClick={() => {window.location.href="http://localhost:5000"}}
+                  onClick={() => {window.location.href="http://localhost:5000/?room=Appointment_Session_1234"}}
                   >
                     <span>Join Meeting</span>
                     {' '}<span style={{ float: 'right' }}><VideoCallIcon style={{ marginLeft: 8, verticalAlign: 'middle' }} /></span>
@@ -99,7 +103,10 @@ export default function Icons() {
                 <CustomButton
                   fullWidth
                   color="danger"
-                  onClick={() => {}}
+                  onClick={async () => {
+                    const msg = await api.cancelAppointment(userData._id);
+                    console.log(msg);
+                  }}
                   >
                     Cancel Appointment
                     {' '}<CloseIcon style={{ marginLeft: 8, verticalAlign: 'middle' }}/>

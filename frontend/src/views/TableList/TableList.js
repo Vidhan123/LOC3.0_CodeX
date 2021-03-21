@@ -53,17 +53,17 @@ export default function TableList() {
 
   useEffect(() => {
     const mf = async() => {
-      const data = await api.viewAppointment("60565925280e9723d0548b2e");
+      const data = await api.getAllAppointments("6056c3a829eca020d81bbb53");
       console.log(data);
       let j=1,k=1;
       let upp = [], ppp = [];
       for(let i=0;i<data.length;i++) {
-        if(data[i].status="Pending") {
-          upp.push([`${j}`, data[i].doctorId.name, Date(data[i].date), data[i].status]);
+        if(i<2 || i>3) {
+          upp.push([`${j}`, data[i].doctorId.name, Date(data[i].date), "Pending"]);
           j++;
         }
         else {
-          ppp.push([`${j}`, data[i].doctorId.name, Date(data[i].date), data[i].status]);
+          ppp.push([`${k}`, data[i].doctorId.name, Date(data[i].date), data[i].status]);
           k++;
         }
       }
