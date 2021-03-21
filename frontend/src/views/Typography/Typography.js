@@ -32,6 +32,8 @@ import { Input } from '@material-ui/core';
 import styled from 'styled-components';
 import api from '../../utils/api';
 
+import Notify from '../../notification/Notify';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -254,9 +256,14 @@ export default function TypographyPage() {
                     >
                       Back
                     </CustomButton>
-                    <CustomButton variant="contained" color="warning" onClick={handleNext}>
-                      {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-                    </CustomButton>
+                    {activeStep !== steps.length - 1 ?
+                    <CustomButton variant="contained" color="warning" onClick={handleNext}>Next
+                      </CustomButton>:
+                      <div style={{display: "inline-block"}} onClick={handleNext}>
+                        <Notify msg={`Appointment scheduled with ${doctor.name}`} />
+                      </div>
+                    }
+                    
                   </div>
                 </div>
               )}

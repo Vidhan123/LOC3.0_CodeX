@@ -68,14 +68,14 @@ const dashboardRoutes = [
     component: MapsNew,
     layout: "/user"
   },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "إخطارات",
-    icon: Notifications,
-    component: NotificationsPage,
-    layout: "/user"
-  },
+  // {
+  //   path: "/notifications",
+  //   name: "Notifications",
+  //   rtlName: "إخطارات",
+  //   icon: Notifications,
+  //   component: NotificationsPage,
+  //   layout: "/user"
+  // },
   // {
   //   path: "/rtl-page",
   //   name: "RTL Support",

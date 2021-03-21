@@ -10,7 +10,7 @@ import axios from 'axios';
 function usePayment() {
   // const [orderAmount, setOrderAmount] = useState(50);
   const [myColor, setMyColor] = useState("#686CFD");
-  const myAppName = "CodeX";
+  const myAppName = "CodeX Clinic";
   const myDescription = "";
 
   const paymentHandler = async (orderAmount) => {

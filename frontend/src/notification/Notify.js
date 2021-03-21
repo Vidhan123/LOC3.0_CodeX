@@ -1,5 +1,6 @@
 import React from 'react';
 import addNotification from 'react-push-notification';
+import CustomButton from "components/CustomButtons/Button.js";
  
 // import Notify from "../../notification/Notify";
 // <Notify msg="Hello" />
@@ -17,11 +18,14 @@ function Notify(props) {
     };
  
     return (
-      <div className="page">
-          <button onClick={buttonClick} className="button">
-           Notify
-          </button>
-      </div>
+        <CustomButton variant="contained" color="warning" onClick={buttonClick}>
+            Submit
+        </CustomButton>
+    //   <div className="page">
+    //       <button onClick={buttonClick} className="button">
+    //        Notify
+    //       </button>
+    //   </div>
     )
 }
  

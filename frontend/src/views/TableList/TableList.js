@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -8,6 +8,8 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import {GlobalContext} from "../../GlobalContext";
+import api from "../../utils/api";
 
 const styles = {
   cardCategoryWhite: {
@@ -42,19 +44,34 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function TableList() {
-  const [uApp, setUpp] = useState([
-    ["1", "Dr. Verma", Date(Date.now()), "Pending"],
-    ["2", "Dr. Verma", Date(Date.now()), "Pending"],
-    ["3", "Dr. Verma", Date(Date.now()), "Pending"],
-    ["4", "Dr. Verma", Date(Date.now()), "Pending"],
-  ]);
+  const { user } = useContext(GlobalContext);
+  const [ userData, setUserData ] = user;
 
-  const [pApp, setPpp] = useState([
-    ["1", "Dr. Verma", Date(Date.now()), "Attended"],
-    ["2", "Dr. Verma", Date(Date.now()), "Did not Attend"],
-    ["3", "Dr. Verma", Date(Date.now()), "Attended"],
-    ["4", "Dr. Verma", Date(Date.now()), "Attended"],
-  ]);
+  const [uApp, setUpp] = useState([]);
+
+  const [pApp, setPpp] = useState([]);
+
+  useEffect(() => {
+    const mf = async() => {
+      const data = await api.viewAppointment("60565925280e9723d0548b2e");
+      console.log(data);
+      let j=1,k=1;
+      let upp = [], ppp = [];
+      for(let i=0;i<data.length;i++) {
+        if(data[i].status="Pending") {
+          upp.push([`${j}`, data[i].doctorId.name, Date(data[i].date), data[i].status]);
+          j++;
+        }
+        else {
+          ppp.push([`${j}`, data[i].doctorId.name, Date(data[i].date), data[i].status]);
+          k++;
+        }
+      }
+      setUpp(upp);
+      setPpp(ppp);
+    }
+    mf();
+  }, [])
 
   const classes = useStyles();
   return (

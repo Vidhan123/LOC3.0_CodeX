@@ -41,11 +41,17 @@ const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
   const { user } = useContext(GlobalContext);
+  const [userData, setUserData] = user;
   const [userD, setUserD] = React.useState({});
 
   React.useEffect(() => {
-    const data = api.getUserById(user.id);
-    setUserD(data);
+    const mf = async() => {
+      const data = await api.getUserById("60565925280e9723d0548b2e");
+      console.log(data);
+      setUserD(data);
+    }
+    mf();
+    
   }, [])
 
   const initials = {name:'',mobileNo:'',address:''};
@@ -162,9 +168,9 @@ export default function UserProfile() {
             </CardAvatar>
             <CardBody profile>
               {/* <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6> */}
-              <h4 className={classes.cardTitle}>{userD.name ? userD.name : ''}</h4>
+              <h4 className={classes.cardTitle}>{userD? userD.name:''}</h4>
               <p className={classes.description}>
-                Computer Engineering student at D J Sanghvi College Of Engineering
+                {userD ? userD.about:''}
               </p>
               <Button color="primary" round>
                 Update Picture

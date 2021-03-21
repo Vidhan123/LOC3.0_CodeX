@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -30,6 +30,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import GroupIcon from '@material-ui/icons/Group';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import api from '../../utils/api';
 
 import { bugs, website, server } from "variables/general.js";
 
@@ -47,6 +48,32 @@ import globe from '../../assets/gifs/globe.gif';
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
+  const [uApp, setUpp] = useState([]);
+
+  const [pApp, setPpp] = useState([]);
+
+  useEffect(() => {
+    const mf = async() => {
+      const data = await api.viewAppointment("60565925280e9723d0548b2e");
+      console.log(data);
+      let j=1,k=1;
+      let upp = [], ppp = [];
+      for(let i=0;i<data.length;i++) {
+        if(data[i].status="Pending" && j < 6) {
+          upp.push([`${j}`, data[i].doctorId.name, Date(data[i].date)]);
+          j++;
+        }
+        else {
+          ppp.push([`${j}`, data[i].doctorId.name, Date(data[i].date), data[i].status]);
+          k++;
+        }
+      }
+      setUpp(upp);
+      setPpp(ppp);
+    }
+    mf();
+  }, [])
+
   const classes = useStyles();
   return (
     <div>
@@ -94,7 +121,7 @@ export default function Dashboard() {
               <FormatListNumberedIcon />
               </CardIcon>
               <p className={classes.cardCategory}>Total Appointments</p>
-              <h3 className={classes.cardTitle}>8</h3>
+              <h3 className={classes.cardTitle}>26</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -110,7 +137,7 @@ export default function Dashboard() {
               <CardIcon color="info">
                 <GroupIcon />
               </CardIcon>
-              <p className={classes.cardCategory}>Doctors Registered</p>
+              <p className={classes.cardCategory}>Registered Doctors</p>
               <h3 className={classes.cardTitle}>18</h3>
             </CardHeader>
             <CardFooter stats>
@@ -123,7 +150,7 @@ export default function Dashboard() {
         </GridItem>
       </GridContainer>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={5}>
+        <GridItem xs={12} sm={12} md={5} style={{marginLeft: '2vw'}}>
         <GridItem xs={12} sm={12} md={12} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 40 }}>
           <img src={globe} width={100} height={100}/>
           <h4>Get connected with the World's<br/> best Doctors,<b> TODAY!</b></h4>
@@ -149,29 +176,24 @@ export default function Dashboard() {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
+                <AccessTime /> Updated a day ago
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={7} style={{ marginTop: 24 }}>
+        <GridItem xs={12} sm={12} md={6} style={{ marginTop: 10, marginLeft: '1vw' }}>
           <Card>
             <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
+              <h4 className={classes.cardTitleWhite}>Upcoming Appoinments</h4>
               <p className={classes.cardCategoryWhite}>
-                New employees on 15th September, 2016
+                Never miss an appointment
               </p>
             </CardHeader>
             <CardBody>
               <Table
                 tableHeaderColor="warning"
-                tableHead={["ID", "Name", "Salary", "Country"]}
-                tableData={[
-                  ["1", "Dakota Rice", "$36,738", "Niger"],
-                  ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                  ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                ]}
+                tableHead={["ID", "Doctor's Name", "When"]}
+                tableData={uApp}
               />
             </CardBody>
           </Card>

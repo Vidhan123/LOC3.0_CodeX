@@ -337,6 +337,7 @@ const api = {
               age
               sex
               about
+              image
               location {
                 latitude
                 longitude
@@ -352,6 +353,33 @@ const api = {
         },
     );
     return (data.data.data.getUserById);
+  },
+  viewAppointment: async (ID) => {
+    const data = await axios.post(
+        url,
+        {
+          query: `
+          query {
+            viewAppointment(user_id: "${ID}") {
+              doctorId {
+                name
+                image
+                specialization
+              }
+              description
+              date
+              status
+            }
+          }
+        `,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+    );
+    return (data.data.data.viewAppointment);
   },
 };
 

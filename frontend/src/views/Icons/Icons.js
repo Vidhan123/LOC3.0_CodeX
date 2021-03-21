@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, {useState, useEffect} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
@@ -17,6 +17,7 @@ import styled from 'styled-components';
 import CustomButton from '../../components/CustomButtons/Button';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import CloseIcon from '@material-ui/icons/Close';
+import api from '../../utils/api';
 
 const useStyles = makeStyles({
   ...styles,
@@ -30,6 +31,37 @@ const useStyles = makeStyles({
 });
 
 export default function Icons() {
+  const [uApp, setUpp] = useState([]);
+
+  const [pApp, setPpp] = useState([]);
+
+  useEffect(() => {
+    const mf = async() => {
+      const data = await api.viewAppointment("60565925280e9723d0548b2e");
+      console.log(data);
+      let j=1,k=1;
+      let upp = [], ppp = [];
+      for(let i=0;i<data.length;i++) {
+        if(data[i].status="Pending") {
+          upp.push({
+            imgUrl: "../assets/doctor.jpeg",
+            name: data[i].doctorId.name,
+            Specialization: data[i].doctorId.name,
+            When: Date(data[i].date),
+          });
+          j++;
+        }
+        else {
+          ppp.push([`${j}`, data[i].doctorId.name, data[i].date, data[i].status]);
+          k++;
+        }
+      }
+      setUpp(upp);
+      setPpp(ppp);
+    }
+    mf();
+  }, [])
+
   const classes = useStyles();
   const arr = [1, 2, 3, 4, 5];
   return (
@@ -43,23 +75,23 @@ export default function Icons() {
             </p>
           </CardHeader>
           <CardBody>
-            {arr.map(elem => (
+            {uApp.map(elem => (
               <StyledDoctorDataContainer>
               <Avatar src={doctor} className={classes.large}/>
               <StyledDoctorData>
-                <StyledH6>Doc Name {elem}</StyledH6>
-                <StyledP style={{ color: 'gray' }}>Specialization</StyledP>
+                <StyledH6>{elem.name}</StyledH6>
+                <StyledP style={{ color: 'gray' }}>{elem.Specialization}</StyledP>
               </StyledDoctorData>
               <StyledDoctorData>
                 <StyledH6>Appointment Summary</StyledH6>
-                <StyledP>Time</StyledP>
-                <StyledP>Date</StyledP>
+                <StyledP>When:</StyledP>
+                <StyledP>{elem.When}</StyledP>
               </StyledDoctorData>
               <StyledDoctorData>
                 <CustomButton
                   fullWidth
                   color="success"
-                  onClick={() => {}}
+                  onClick={() => {window.location.href="http://localhost:5000"}}
                   >
                     <span>Join Meeting</span>
                     {' '}<span style={{ float: 'right' }}><VideoCallIcon style={{ marginLeft: 8, verticalAlign: 'middle' }} /></span>
