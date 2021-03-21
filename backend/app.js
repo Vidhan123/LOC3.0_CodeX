@@ -7,9 +7,7 @@ const  graphqlschema =  require( './graphql/schema/index.js');
 const  graphqlResolvers =  require('./graphql/resolvers/index.js');
 const connectDB = require('./config/db.js');
 const cors = require('cors');
-const Redis = require('ioredis');
 app.use(express.json());
-const redis = new Redis();
 const paymentRouter = require('./routes/paymentRouter.js');
 
 dotenv.config();
@@ -31,7 +29,7 @@ app.use(
       return {
         schema: graphqlschema,
         rootValue: graphqlResolvers,
-        context: { req, redis },
+        context: { req },
         graphiql: true,
       };
     })
