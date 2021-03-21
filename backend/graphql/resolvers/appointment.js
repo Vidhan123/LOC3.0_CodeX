@@ -21,19 +21,19 @@ const createAppointment = async (args, {req}) => {
                 status: 'Pending',
             });
             if(appointment) {
-                const from = 'CodeX Clinic';
-                const to = '917021834798';
-                const text = 'Your appointment has been booked';
-                nexmo.message.sendSms(from, to, text, 
-                    function(error, result) {    
-                    if(error) { 
-                        console.log("ERROR", error) 
-                    } 
-                    else { 
-                        console.log("RESULT", result) 
-                        console.log(text);
-                    } 
-                }); 
+                // const from = 'CodeX Clinic';
+                // const to = '917021834798';
+                // const text = 'Your appointment has been booked';
+                // nexmo.message.sendSms(from, to, text, 
+                //     function(error, result) {    
+                //     if(error) { 
+                //         console.log("ERROR", error) 
+                //     } 
+                //     else { 
+                //         console.log("RESULT", result) 
+                //         console.log(text);
+                //     } 
+                // }); 
                 return {
                     ...appointment._doc
                 };
