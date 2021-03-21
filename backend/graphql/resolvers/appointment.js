@@ -2,6 +2,12 @@ const User = require('../../models/user.js');
 const {loggedin, admin} = require('../../utils/verifyUser');
 const generateToken = require('../../utils/generateToken.js');
 const Appointment = require("../../models/appointment.js");
+const Nexmo = require('nexmo');
+
+const nexmo = new Nexmo({
+  apiKey: '92cb3f41',
+  apiSecret: 'Wp2ilpO0Kecqi1sD',
+});
 
 const createAppointment = async (args, {req}) => {
     try {
@@ -15,6 +21,19 @@ const createAppointment = async (args, {req}) => {
                 status: 'Pending',
             });
             if(appointment) {
+                const from = 'CodeX Clinic';
+                const to = '917021834798';
+                const text = 'Your appointment has been booked';
+                nexmo.message.sendSms(from, to, text, 
+                    function(error, result) {    
+                    if(error) { 
+                        console.log("ERROR", error) 
+                    } 
+                    else { 
+                        console.log("RESULT", result) 
+                        console.log(text);
+                    } 
+                }); 
                 return {
                     ...appointment._doc
                 };
@@ -32,13 +51,16 @@ const viewAppointment = async (args, {req}) => {
     try {
         // if(loggedin(req)) {
             let d = new Date();
+            let x = [];
             console.log(args);
             const user = await User.findById(args.user_id);
+            console.log(user);
             if(user.role=="patient") {
                 const appointment = await Appointment.find({patientId: user._id}).populate('doctorId');
                 console.log(appointment);
                 if (appointment) {
                     appointment.forEach(element => {
+                        let status = "";
                         let date = element.date;
                         let a = date.substring(0,4);
                         let b = date.substring(5,7);
@@ -48,13 +70,13 @@ const viewAppointment = async (args, {req}) => {
                         let x = y+z;
                         let time = d.getHours().toString() + d.getMinutes().toString();
                         if (element.status == 'Visited') {
-                            element.status = 'Visited';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Visited'}} );
                         } else if (element.status == 'Canceled') {
-                            element.status == 'Canceled';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Canceled'}} ); 
                         } else if (a==d.getFullYear()&&b==(d.getMonth()+1)&&c==d.getDate()&&(+x + +100)>time) {
-                            element.status = 'Pending';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Pending'}} ); 
                         } else {
-                            element.status = 'Not Visited';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status:'Not Visited'}} ); 
                         }     
                     });
                     return appointment;
@@ -74,14 +96,14 @@ const viewAppointment = async (args, {req}) => {
                         let x = y+z;
                         let time = d.getHours().toString() + d.getMinutes().toString();
                         if (element.status == 'Visited') {
-                            element.status = 'Visited';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Visited'}} );
                         } else if (element.status == 'Canceled') {
-                            element.status == 'Canceled';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Canceled'}} ); 
                         } else if (a==d.getFullYear()&&b==(d.getMonth()+1)&&c==d.getDate()&&(+x + +100)>time) {
-                            element.status = 'Pending';
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status: 'Pending'}} ); 
                         } else {
-                            element.status = 'Not Visited';
-                        }    
+                            element = Appointment.findByIdAndUpdate(element._id, {$set : {status:'Not Visited'}} ); 
+                        }   
                     });
                     return appointment;
                 } else {
@@ -103,6 +125,19 @@ const cancelAppointment = async (args, {req}) => {
                 appointment.status = 'Canceled';
                 const updatedAppointment = await appointment.save();
                 if(updatedAppointment) {
+                    const from = 'CodeX Clinic';
+                    const to = '917021834798';
+                    const text = 'Your appointment has been canceled';
+                    nexmo.message.sendSms(from, to, text, 
+                        function(error, result) {    
+                        if(error) { 
+                            console.log("ERROR", error) 
+                        } 
+                        else { 
+                            console.log("RESULT", result) 
+                            console.log(text);
+                        } 
+                    }); 
                     return {msg: 'Appointment canceled!!'};
                 } else {
                     return {msg: 'Some error occures! Please try again later'};
@@ -125,6 +160,19 @@ const changeStatus = async (args, {req}) => {
                 appointment.status = 'Visited';
                 const updatedAppointment = await appointment.save();
                 if(updatedAppointment) {
+                    const from = 'CodeX Clinic';
+                    const to = '917021834798';
+                    const text = 'You have visited your appointment';
+                    nexmo.message.sendSms(from, to, text, 
+                        function(error, result) {    
+                        if(error) { 
+                            console.log("ERROR", error) 
+                        } 
+                        else { 
+                            console.log("RESULT", result) 
+                            console.log(text);
+                        } 
+                    }); 
                     return {msg: 'Appointment visited!!'};
                 } else {
                     return {msg: 'Some error occures! Please try again later'};
