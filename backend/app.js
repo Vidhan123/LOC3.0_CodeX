@@ -53,7 +53,7 @@ app.use(
 
 
   const multer = require('multer');
-  let DIR = './public/uploads/';
+  let DIR = './uploads/';
   const { uuid } = require('uuidv4');
   const User = require('./models/user.js');
 const Appointment = require('./models/appointment.js')

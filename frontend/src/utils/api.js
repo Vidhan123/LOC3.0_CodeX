@@ -381,6 +381,7 @@ const api = {
     );
     return (data.data.data.viewAppointment);
   },
+<<<<<<< HEAD
   cancelAppointment: async (ID) => {
     const data = await axios.post(
       url,
@@ -400,6 +401,34 @@ const api = {
       },
   );
   return (data.data.data.cancelAppointment);
+=======
+  getAllAppointments: async (ID) => {
+    const data = await axios.post(
+        url,
+        {
+          query: `
+          query {
+            getAllAppointments(user_id: "${ID}") {
+              doctorId {
+                name
+                image
+                specialization
+              }
+              description
+              date
+              status
+            }
+          }
+        `,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+    );
+    return (data.data.data.getAllAppointments);
+>>>>>>> 7d9d05ff2214b70d0fad0f2b334555e1d10061b5
   },
 };
 

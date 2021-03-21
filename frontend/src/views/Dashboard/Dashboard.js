@@ -54,12 +54,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     const mf = async() => {
-      const data = await api.viewAppointment("60565925280e9723d0548b2e");
+      const data = await api.getAllAppointments("6056c3a829eca020d81bbb53");
       console.log(data);
       let j=1,k=1;
       let upp = [], ppp = [];
       for(let i=0;i<data.length;i++) {
-        if(data[i].status="Pending" && j < 6) {
+        if(i<2 || i>3) {
           upp.push([`${j}`, data[i].doctorId.name, Date(data[i].date)]);
           j++;
         }
@@ -109,7 +109,7 @@ export default function Dashboard() {
             <CardFooter stats>
               <div className={classes.stats}>
                 <PersonAddIcon />
-                Last 24 Hours
+                Last 12 Hours
               </div>
             </CardFooter>
           </Card>
@@ -181,10 +181,10 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={6} style={{ marginTop: 10, marginLeft: '1vw' }}>
+        <GridItem xs={12} sm={12} md={6} style={{ marginTop: 55, marginLeft: '1vw' }}>
           <Card>
             <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Upcoming Appoinments</h4>
+              <h4 className={classes.cardTitleWhite}>Upcoming Appointments</h4>
               <p className={classes.cardCategoryWhite}>
                 Never miss an appointment
               </p>
