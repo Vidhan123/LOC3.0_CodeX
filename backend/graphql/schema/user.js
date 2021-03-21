@@ -1,8 +1,8 @@
 const UserSchema = `
 
     type Location {
-        latitude: Int
-        longitude: Int
+        latitude: Float
+        longitude: Float
     }
 
     input LocationInput {
