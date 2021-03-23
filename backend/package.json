@@ -21,7 +21,6 @@
     "express-graphql": "^0.12.0",
     "fuzzy-search": "^3.2.1",
     "graphql": "^15.5.0",
-    "ioredis": "^4.24.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.0",
     "mongoose-fuzzy-search": "0.0.4",

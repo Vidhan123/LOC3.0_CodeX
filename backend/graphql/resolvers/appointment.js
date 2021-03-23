@@ -5,8 +5,8 @@ const Appointment = require("../../models/appointment.js");
 const Nexmo = require('nexmo');
 
 const nexmo = new Nexmo({
-  apiKey: '92cb3f41',
-  apiSecret: 'Wp2ilpO0Kecqi1sD',
+  apiKey: process.env.NEXMO_API_KEY,
+  apiSecret: process.env.NEXMO_API_SECRET,
 });
 
 const createAppointment = async (args, {req}) => {
@@ -22,7 +22,7 @@ const createAppointment = async (args, {req}) => {
             });
             if(appointment) {
                 const from = 'CodeX Clinic';
-                const to = '917021834798';
+                const to = process.env.PHONENO;
                 const text = 'Your appointment has been booked';
                 nexmo.message.sendSms(from, to, text, 
                     function(error, result) {    
@@ -155,7 +155,7 @@ const cancelAppointment = async (args, {req}) => {
                 const updatedAppointment = await appointment.save();
                 if(updatedAppointment) {
                     const from = 'CodeX Clinic';
-                    const to = '917021834798';
+                    const to = process.env.PHONENO;
                     const text = 'Your appointment has been canceled';
                     nexmo.message.sendSms(from, to, text, 
                         function(error, result) {    
@@ -190,7 +190,7 @@ const changeStatus = async (args, {req}) => {
                 const updatedAppointment = await appointment.save();
                 if(updatedAppointment) {
                     const from = 'CodeX Clinic';
-                    const to = '917021834798';
+                    const to = process.env.PHONENO;
                     const text = 'You have visited your appointment';
                     nexmo.message.sendSms(from, to, text, 
                         function(error, result) {    
