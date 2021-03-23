@@ -54,7 +54,7 @@ const DrawerContent = (props) => {
                 }}
               >
                 <Avatar.Image
-                  source={require("../assets/doctor.jpeg")}
+                  source={require("../assets/marc.jpg")}
                   size={40}
                 />
                 <View style={{ marginLeft: 15, flexDirection: "column" }}>

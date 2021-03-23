@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, Linking } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button as ButtonRP } from "react-native-paper";
@@ -14,6 +14,7 @@ const GRADIENT_BLUE = ["#6B84CA", "#8F44CE"];
 const GRADIENT_PINK = ["#D442F8", "#B645F5", "#9B40F8"];
 const COLOR_WHITE = theme.COLORS.WHITE;
 const COLOR_GREY = theme.COLORS.MUTED;
+import api from "../util/api";
 
 const data = [
   {
@@ -51,6 +52,44 @@ const data = [
 ];
 
 const Scheduled = () => {
+  const [uApp, setUpp] = useState([]);
+
+  const [pApp, setPpp] = useState([]);
+
+  useEffect(() => {
+    const mf = async () => {
+      const data = await api.getAllAppointments("6056c3a829eca020d81bbb53");
+      console.log(data);
+      let j = 1,
+        k = 1;
+      let upp = [],
+        ppp = [];
+      for (let i = 0; i < data.length; i++) {
+        if (i < 2 || i > 3) {
+          upp.push({
+            imgUrl: "../assets/doctor.jpeg",
+            name: data[i].doctorId.name,
+            Specialization: data[i].doctorId.specialization,
+            When: data[i].date,
+          });
+          j++;
+        } else {
+          ppp.push([
+            `${j}`,
+            data[i].doctorId.name,
+            data[i].date,
+            data[i].status,
+          ]);
+          k++;
+        }
+      }
+      setUpp(upp);
+      setPpp(ppp);
+    };
+    mf();
+  }, []);
+  // console.log(uApp);
+
   const navigation = useNavigation();
   return (
     <View style={{ flex: 5 }}>
@@ -106,8 +145,7 @@ const Scheduled = () => {
           </Card>
           <Card.Content>
             <FlatList
-              bounces={false}
-              data={data}
+              data={uApp}
               renderItem={(itemData) => {
                 return (
                   <View
@@ -174,10 +212,10 @@ const Scheduled = () => {
                       }}
                     >
                       <Text style={{ fontSize: 25, color: "#757575" }}>
-                        Time:
+                        When:{" "}
                       </Text>
                       <Text style={{ fontSize: 25, color: "#757575" }}>
-                        {itemData.item.Time}
+                        {itemData.item.When.split("T")[0]}
                       </Text>
                     </View>
                     <View
@@ -189,13 +227,13 @@ const Scheduled = () => {
                       }}
                     >
                       <Text style={{ fontSize: 25, color: "#757575" }}>
-                        Date:
+                        Time:{" "}
                       </Text>
                       <Text style={{ fontSize: 25, color: "#757575" }}>
-                        {itemData.item.Date}
+                        {itemData.item.When.split("T")[1]}
                       </Text>
                     </View>
-                    <View
+                    {/* <View
                       style={{
                         flexDirection: "row",
                         justifyContent: "flex-start",
@@ -209,7 +247,7 @@ const Scheduled = () => {
                       <Text style={{ fontSize: 25, color: "#757575" }}>
                         {itemData.item.Name}
                       </Text>
-                    </View>
+                    </View> */}
                     <View style={{ marginTop: 20 }}>
                       <ButtonRP
                         icon="video"

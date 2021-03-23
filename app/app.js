@@ -107,7 +107,7 @@ const Dashboard = () => {
         name="Doctors"
         component={Doctors}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         options={{
           title: "Notifications",
           drawerIcon: ({ focused, size }) => (
@@ -120,7 +120,7 @@ const Dashboard = () => {
         }}
         name="temp"
         component={temp}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 };

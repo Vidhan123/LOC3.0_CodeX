@@ -32,20 +32,20 @@ const Appointments = () => {
         ppp = [];
       for (let i = 0; i < data.length; i++) {
         if (i < 2 || i > 3) {
-          upp.push([
-            `${j}`,
-            data[i].doctorId.name,
-            Date(data[i].date),
-            "Pending",
-          ]);
+          upp.push({
+            ID: `${j}`,
+            Name: data[i].doctorId.name,
+            Date: data[i].date,
+            Status: "Pending",
+          });
           j++;
         } else {
-          ppp.push([
-            `${k}`,
-            data[i].doctorId.name,
-            Date(data[i].date),
-            data[i].status,
-          ]);
+          ppp.push({
+            ID: `${k}`,
+            Name: data[i].doctorId.name,
+            Date: data[i].date,
+            Status: data[i].status,
+          });
           k++;
         }
       }
@@ -92,7 +92,7 @@ const Appointments = () => {
             marginTop: 50,
             width: 400,
             margin: 7,
-            height: 500,
+            height: "auto",
             elevation: 5,
             shadowOffset: { width: 10, height: 10 },
             shadowOpacity: 0.3,
@@ -130,9 +130,7 @@ const Appointments = () => {
             }}
           >
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>ID</Text>
-            <Text style={{ fontSize: 20, color: "#7b1fa2" }}>
-              Doctor's Name
-            </Text>
+            <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Dr. Name</Text>
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Date/Time</Text>
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Status</Text>
           </View>
@@ -140,38 +138,49 @@ const Appointments = () => {
             data={uApp}
             renderItem={(itemData) => {
               return ( */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottomWidth: 0.5,
-              paddingHorizontal: 5,
-              paddingVertical: 30,
-              marginHorizontal: 10,
-              borderBottomColor: "grey",
-            }}
-          >
-            {uApp.map((elem) => {
-              <View>
-                <Text style={{ fontSize: 15, textAlign: "left" }}>
-                  {elem[0]}
-                </Text>
+          <View>
+            <FlatList
+              data={uApp}
+              renderItem={(itemData) => {
+                return (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      borderBottomWidth: 0.5,
+                      paddingHorizontal: 5,
+                      paddingVertical: 30,
+                      marginHorizontal: 10,
+                      borderBottomColor: "grey",
+                    }}
+                  >
+                    <Text style={{ fontSize: 15, textAlign: "left" }}>
+                      {itemData.item.ID}
+                    </Text>
 
-                <Text style={{ fontSize: 15 }}>{elem[1]}</Text>
+                    <Text style={{ fontSize: 15 }}>
+                      {itemData.item.Name.split(" ")[0]}
+                    </Text>
 
-                <Text
-                  style={{
-                    fontSize: 15,
-                    textAlign: "center",
-                    paddingLeft: 50,
-                    marginHorizontal: 50,
-                  }}
-                ></Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        textAlign: "left",
+                        paddingRight: -5,
+                        marginHorizontal: 10,
+                      }}
+                    >
+                      {itemData.item.Date.split("T")[0]}
+                    </Text>
 
-                <Text style={{ textAlign: "center", fontSize: 15 }}></Text>
-              </View>;
-            })}
+                    <Text style={{ textAlign: "center", fontSize: 15 }}>
+                      {itemData.item.Status}
+                    </Text>
+                  </View>
+                );
+              }}
+            />
           </View>
           {/* );
             }}
@@ -181,10 +190,10 @@ const Appointments = () => {
         <Card
           style={{
             position: "absolute",
-            marginVertical: 600,
+            marginVertical: 470,
             width: 400,
             margin: 7,
-            height: 500,
+            height: "auto",
             elevation: 5,
             shadowOffset: { width: 10, height: 10 },
             shadowOpacity: 0.3,
@@ -222,9 +231,7 @@ const Appointments = () => {
             }}
           >
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>ID</Text>
-            <Text style={{ fontSize: 20, color: "#7b1fa2" }}>
-              Doctor's Name
-            </Text>
+            <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Dr. Name</Text>
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Date/Time</Text>
             <Text style={{ fontSize: 20, color: "#7b1fa2" }}>Status</Text>
           </View>
@@ -248,16 +255,19 @@ const Appointments = () => {
                     {itemData.item.ID}
                   </Text>
 
-                  <Text style={{ fontSize: 15 }}>{itemData.item.Name}</Text>
+                  <Text style={{ fontSize: 15 }}>
+                    {itemData.item.Name.split(" ")[0]}
+                  </Text>
 
                   <Text
                     style={{
                       fontSize: 15,
-                      textAlign: "center",
-                      paddingLeft: 50,
+                      textAlign: "left",
+                      paddingRight: -5,
+                      marginHorizontal: 10,
                     }}
                   >
-                    {itemData.item.Date}
+                    {itemData.item.Date.split("T")[0]}
                   </Text>
 
                   <Text style={{ textAlign: "center", fontSize: 15 }}>
