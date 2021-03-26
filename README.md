@@ -2,7 +2,7 @@
 
 <h4 align="center"> Repository for CodeX Clinic project.</h4>
 
-<h4>Link<a href="https://www.youtube.com/watch?v=74OVIPUa-dg">Visit W3Schools</a></h4>
+<a href="https://www.youtube.com/watch?v=74OVIPUa-dg">Link To Our Video</a>
 
 ## Screenshots
 
